@@ -14,11 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ChildAlertDto {
 
-    private List <Person> numberOfChildren;
-    private List<Person> numberOfAdults;
     private String firstName;
     private String lastName;
     private int age;
-    private List<Person> family;
+    private List<Person> adults;
     private List<Person> children;
 }

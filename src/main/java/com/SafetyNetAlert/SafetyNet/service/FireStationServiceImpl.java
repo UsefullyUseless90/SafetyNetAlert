@@ -54,7 +54,7 @@ public class FireStationServiceImpl extends FireStationService {
 
     //The point of this method is to get people covered by a specific station when asked
     public PeopleCoveredByFireStationDto getByStationSector(final String address, long station) {
-        List<FireStation> fireStations = personRepository.findByStationSector(address);
+        List<FireStation> fireStations = repository.findByStationSector(address);
         List<String> addresses = new ArrayList<>();
         PeopleCoveredByFireStationDto result;
 

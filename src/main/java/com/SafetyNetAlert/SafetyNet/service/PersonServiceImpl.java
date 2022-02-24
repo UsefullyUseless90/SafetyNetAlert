@@ -46,9 +46,9 @@ public class PersonServiceImpl extends PersonService {
      * @return peopleCoveredByFireStation.
      */
 
-    public PeopleCoveredByFireStationDto createPersonInfoToStationNumber(final List<Person> personList) {
+    public PeopleCoveredByFireStationDto createPersonInfoToStationNumber(List<Person> personList) {
         PeopleCoveredByFireStationDto peopleCovered = new PeopleCoveredByFireStationDto();
-        List<PersonInfoDto> result = new ArrayList();
+        List<PersonInfoDto> result = new ArrayList<>();
 
         for (Person person : personList) {
             PersonInfoDto personInfoDto = new PersonInfoDto();
@@ -64,9 +64,9 @@ public class PersonServiceImpl extends PersonService {
             peopleCovered.setAddress(person.getAddress());
             result.add(personInfoDto);
             if (age < 18) {
-                PeopleCoveredByFireStationDto.setChildren(PeopleCoveredByFireStationDto.getChildren() + 1);
+                peopleCovered.setChildren(peopleCovered.getChildren() + 1);
             } else {
-                PeopleCoveredByFireStationDto.setAdults(PeopleCoveredByFireStationDto.getAdults() + 1);
+                peopleCovered.setAdults(peopleCovered.getAdults() + 1);
             }
         }
         peopleCovered.setPersonInfoDtos(result);
@@ -82,7 +82,7 @@ public class PersonServiceImpl extends PersonService {
 
     public List<ChildAlertDto> getByAddress(String address) {
         List<Person> personList = new repository.findByAddress(address);
-        List<ChildAlertDto> result = new ArrayList<>();
+        ChildAlertDto result = new ChildAlertDto();
         List<Person> children = new ArrayList<>();
         List<Person> adults = new ArrayList<>();
         for (Person person : personList) {
@@ -103,9 +103,9 @@ public class PersonServiceImpl extends PersonService {
                 children.add(child);
             }
         }
-        result.setNumberOfChildren.add(children);// Attribute the count of children to a list
-        result.setNumberOfAdults.add(adults);// Attribute the count of Adults to a list
-        return result;
+        result.setChildren(children);// Attribute the count of children to a list
+        result.setAdults(adults);// Attribute the count of Adults to a list
+        return (List<ChildAlertDto>) result;
     }
 
     /**
@@ -117,17 +117,17 @@ public class PersonServiceImpl extends PersonService {
 
     public List<CommunityEmailDto> getByCity(String city) {
         List<Person> personList = repository.findByCity(city);
-        List<CommunityEmailDto> result = new ArrayList<>();
+        CommunityEmailDto result = new CommunityEmailDto();
         List<String> email = new ArrayList<>();
 
         for (Person p : personList) {
             email.add(p.getEmail());
 
-            Set<String> mySet = new HashSet<String>(email);
+            Set<String> mySet = new HashSet<>(email);
             List<String> filteredEmail = new ArrayList<>(mySet);
             result.setEmail(filteredEmail);
         }
-            return result;
+            return (List<CommunityEmailDto>) result;
         }
 
 

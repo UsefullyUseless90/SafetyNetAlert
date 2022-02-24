@@ -49,10 +49,12 @@ public class Person {
         @Column(name = "stationNumber", nullable = false)
         private int stationNumber;
 
-        private int adults;
-        private int children;
-
+        private List<String> adults;
+    @ManyToOne
+        private List<Person> children;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
         private List<Person> alertChild;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
         private List<Person> alertAdults;
 
 

@@ -75,8 +75,6 @@ public class PersonService {
     private ChildAlertDto convertEntityToChildAlertDto(Person person) {    //getByAddress
 
         ChildAlertDto convertEntityToChildAlertDto = new ChildAlertDto();
-        convertEntityToChildAlertDto.setNumberOfChildren(person.getAlertChild());
-        convertEntityToChildAlertDto.setNumberOfAdults(person.getAlertAdults());
         convertEntityToChildAlertDto.setFirstName(person.getFirstName());
         convertEntityToChildAlertDto.setLastName(person.getLastName());
         convertEntityToChildAlertDto.setAge(person.getAge());
