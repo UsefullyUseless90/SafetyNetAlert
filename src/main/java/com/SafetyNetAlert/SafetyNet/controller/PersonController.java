@@ -45,7 +45,6 @@ public class PersonController {
      */
     @GetMapping
     public ResponseEntity<List<Person>> getAllPerson() throws JSONException, IOException {
-        //logger.info("Calling method");
         List<Person> personList = personService.getAllPerson();
         ResponseEntity<List<Person>> result = ResponseEntity.status(HttpStatus.OK).body(personList);
         return result;
