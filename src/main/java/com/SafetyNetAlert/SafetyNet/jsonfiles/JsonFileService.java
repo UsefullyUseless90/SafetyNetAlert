@@ -21,7 +21,6 @@ import java.util.List;
 public class JsonFileService {
 
     private static File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
-    //private static String key = "firstName" + "lastName";
 
     /**
      * Fonction permettant de lire le fichier JSON et de le transformer en objet JAVA avec Jackson
@@ -42,12 +41,6 @@ public class JsonFileService {
         DataJson obj = mapper.readValue(myLine.toString(), DataJson.class);
         return obj;
     }
-    // new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json")
-
-    // Général gestion d'un fichier
-    // 1 - Lecture du fichier ==>> DataJson
-    // 2 _ MAJ de l'objet souhaité ==>> Dans lDataJson, boucler sur les objects afin d'identifier celui qu'il faut meetre à jours
-    // 3 - Ecriture du nouvel objet (efface le fichier complet puis réécriture complète)
 
     /**
      * Fonction permettant de convertir la classe DataJson en texte dans le fichier JSON
@@ -55,8 +48,6 @@ public class JsonFileService {
      * @throws IOException
      */
     public void jsonWriterService(DataJson dataJson) throws IOException {
-
-        // Comment convertir ce dataJson en text ?
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(file, dataJson);
@@ -78,17 +69,4 @@ public class JsonFileService {
         this.jsonWriterService(dataJson);
     }
 }
-
-
-    // Methode à avoir dans la couche de Service pour le JSON
-
-    // lirejSOn -->> DtaaJson
-
-
-    // updateJson -->> MAJ le Json complet //lireJson() -->> Parser l'ensemble Json dans le fichier
-
-    // updatePersonsJson(List<Person> personList)
-    // updateFireStationJson(List<FireStation> firestationList)
-    // updateMedicalRecords(List<MedicalRecords> medicalRecordList)
-
 

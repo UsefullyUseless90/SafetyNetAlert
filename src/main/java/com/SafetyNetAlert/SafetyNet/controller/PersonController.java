@@ -20,8 +20,6 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    //Logger logger = (Logger) LoggerFactory.getLogger(PersonController.class);
-
     /**
      * Create / Add new Person
      *
