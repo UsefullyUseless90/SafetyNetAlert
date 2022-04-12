@@ -1,173 +1,91 @@
 package com.SafetyNetAlert.SafetyNet.service;
 
-import com.SafetyNetAlert.SafetyNet.dto.*;
-import com.SafetyNetAlert.SafetyNet.model.MedicalRecord;
+import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
+import com.SafetyNetAlert.SafetyNet.model.DataJson;
 import com.SafetyNetAlert.SafetyNet.model.Person;
-import com.SafetyNetAlert.SafetyNet.repository.FireStationRepository;
-import com.SafetyNetAlert.SafetyNet.repository.MedicalRecordRepository;
-import com.SafetyNetAlert.SafetyNet.repository.PersonRepository;
+import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
 
-/**
- * The type Person service.
- */
 @Service
-public class PersonServiceImpl extends PersonService {
-    /**
-     * PersonRepository.
-     */
+@RequiredArgsConstructor
+public class PersonServiceImpl implements PersonService {
+
+    File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
     @Autowired
-    private PersonRepository repository;
-    /**
-     * MedicalRecordRepository.
-     */
-    @Autowired
-    private MedicalRecordRepository medicalRecordRepository;
-    /**
-     * FireStationRepository.
-     */
-    @Autowired
-    private FireStationRepository fireStationRepository;
+    private JsonFileService jsonFileService;
 
-    public PersonServiceImpl(PersonRepository personRepository) {
-        super(personRepository);
+    /**
+     * @param person
+     * @return an updated list of all the persons
+     * @throws IOException
+     * @throws JSONException
+     */
+    @Override
+    public List<Person> createPerson(Person person) throws IOException, JSONException {
+        List<Person> personList = this.getAllPerson();
+        person.setLastName(person.getLastName());
+        person.setFirstName(person.getFirstName());
+        person.setPhone(person.getPhone());
+        person.setZip(person.getZip());
+        person.setAddress(person.getAddress());
+        person.setCity(person.getCity());
+        person.setEmail(person.getEmail());
+        personList.add(person);
+
+        jsonFileService.updatePersons(personList);
+
+        return this.getAllPerson();
     }
 
+    @Override
+    public List<Person> getAllPerson() throws IOException {
 
-    /**
-     * Create PeopleCoveredByFireStationDto.
-     * Reacts to FireStation Station Number Endpoint (#1) complete the function in FireStationServiceImpl as well.
-     * @param personList the person list.
-     * @return peopleCoveredByFireStation.
-     */
-
-    public PeopleCoveredByFireStationDto createPersonInfoToStationNumber(List<Person> personList) {
-        PeopleCoveredByFireStationDto peopleCovered = new PeopleCoveredByFireStationDto();
-        List<PersonInfoDto> result = new ArrayList<>();
-
-        for (Person person : personList) {
-            PersonInfoDto personInfoDto = new PersonInfoDto();
-            LocalDate birthdate = medicalRecordRepository.findBirthDateByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-            LocalDate now = LocalDate.now();
-            int age = 0;
-            if (birthdate != null) {
-                age = Period.between(birthdate, now).getYears();
-            }
-            peopleCovered.setFirstName(person.getFirstName());
-            peopleCovered.setLastName(person.getLastName());
-            peopleCovered.setPhone(person.getPhone());
-            peopleCovered.setAddress(person.getAddress());
-            result.add(personInfoDto);
-            if (age < 18) {
-                peopleCovered.setChildren(peopleCovered.getChildren() + 1);
-            } else {
-                peopleCovered.setAdults(peopleCovered.getAdults() + 1);
-            }
-        }
-        peopleCovered.setPersonInfoDtos(result);
-        return peopleCovered;
+        return jsonFileService.jsonReaderService().getPersons();
     }
 
-    /**
-     * Create childAlert.
-     * Reacts to ChildAlert Endpoint (#2).
-     * @param address the address.
-     * @return ChildAlertDto.
-     */
+    @Override
+    public List<Person> updatePerson(Person person) throws IOException, JSONException {
+        // US : Bénédicte habite Paris, elle vient de se marier avec Robert.
+        // elle doit maintenant porte le nom de DUPOND au lieu de MACRON
+        // comment je peux l'identifier parmi tous les Parisiens et ainsi update son nom ?
+        List<Person> personList = this.getAllPerson();// create a list and add to it the persons
 
-    public List<ChildAlertDto> getByAddress(String address) {
-        List<Person> personList = new repository.findByAddress(address);
-        ChildAlertDto result = new ChildAlertDto();
-        List<Person> children = new ArrayList<>();
-        List<Person> adults = new ArrayList<>();
-        for (Person person : personList) {
-            LocalDate birthdate = medicalRecordRepository.findBirthDateByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-            LocalDate now = LocalDate.now();
-            int age = 0;
-            if (birthdate != null) {
-                age = Period.between(birthdate, now).getYears();
-            }
-            if (age > 18) {
-                adults.add(person);
-            } else {
-                Person child = new Person();
-
-                child.setFirstName(person.getFirstName());
-                child.setLastName(person.getLastName());
-                child.setAge(person.getAge());
-                children.add(child);
+        for (int i = 0; i < personList.size(); i++) {
+            Person p = personList.get(i);
+            if (p.getLastName().equals(person.getLastName()) && p.getFirstName().equals(person.getFirstName())) {// In case of any match the value is replaced by a new one
+                personList.set(i, person);
+                break;
             }
         }
-        result.setChildren(children);// Attribute the count of children to a list
-        result.setAdults(adults);// Attribute the count of Adults to a list
-        return (List<ChildAlertDto>) result;
+
+        // Ecriture dnas JSON
+        this.jsonFileService.updatePersons(personList);
+
+        return personList;
     }
 
-    /**
-     * Create communityEmail list.
-     * Reacts to CommunityMail Endpoint (#7).
-     * @param city
-     * @return communityMail.
-     */
+    @Override
+    public List<Person> deletePerson(Person person) throws IOException {
+        List<Person> personList = this.getAllPerson();// create a list and add to it the persons
 
-    public List<CommunityEmailDto> getByCity(String city) {
-        List<Person> personList = repository.findByCity(city);
-        CommunityEmailDto result = new CommunityEmailDto();
-        List<String> email = new ArrayList<>();
-
-        for (Person p : personList) {
-            email.add(p.getEmail());
-
-            Set<String> mySet = new HashSet<>(email);
-            List<String> filteredEmail = new ArrayList<>(mySet);
-            result.setEmail(filteredEmail);
-        }
-            return (List<CommunityEmailDto>) result;
+        for (int i = 0; i < personList.size(); i++) {
+            Person p = personList.get(i);
+            if (p.getLastName().equals(person.getLastName()) && p.getFirstName().equals(person.getFirstName())) {// In case of any match the value is deleted
+                personList.remove(i);
+                break;
+            }
         }
 
+        // Ecriture dnas JSON
+        this.jsonFileService.updatePersons(personList);
 
-/**
- * Create person info list.
- * Reacts to PersonInfo Endpoint (#6).
- * @param firstName the first name.
- * @param lastName  the last name.
- * @return the personInfo list.
- */
-
-    public List<PersonInfoDto> createPersonInfoList(final String firstName, final String lastName) {
-    List<PersonInfoDto> personResult = new ArrayList<>();
-    List<Person> personList = repository.findByFirstNameAndLastName(firstName, lastName);
-
-    for (Person p : personList){
-        PersonInfoDto personInfoDto = new PersonInfoDto();
-        personInfoDto.setFirstName(p.getFirstName());
-        personInfoDto.setLastName(p.getLastName());
-        personInfoDto.setAddress(p.getAddress());
-        personInfoDto.setEmail(p.getEmail());
-
-        LocalDate birthdate = medicalRecordRepository.findBirthDateByFirstNameAndLastName(p.getBirthDate(), p.getLastName());
-        LocalDate now = LocalDate.now();
-        int age = 0;
-        if(birthdate != null){
-            age = Period.between(now, birthdate).getYears();
-        }
-        personInfoDto.setAge(age);
-        Optional<MedicalRecord>medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(p.getFirstName(), p.getLastName());
-        if(medicalRecord.isPresent()){
-            personInfoDto.setMedications(medicalRecord.get().getMedications());
-            personInfoDto.setAllergies(medicalRecord.get().getAllergies());
-        }else{
-            personInfoDto.setMedications(new ArrayList<>());
-            personInfoDto.setAllergies(new ArrayList<>());
-        }
-        personResult.add(personInfoDto);
-        }
-    return personResult;
+        return personList;
     }
-
 }

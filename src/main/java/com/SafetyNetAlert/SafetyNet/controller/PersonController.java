@@ -1,53 +1,88 @@
 package com.SafetyNetAlert.SafetyNet.controller;
 
 
-import com.SafetyNetAlert.SafetyNet.dto.ChildAlertDto;
-import com.SafetyNetAlert.SafetyNet.dto.CommunityEmailDto;
-import com.SafetyNetAlert.SafetyNet.dto.PersonInfoDto;
+import com.SafetyNetAlert.SafetyNet.model.Person;
 import com.SafetyNetAlert.SafetyNet.service.PersonService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
 @RestController
-@ResponseBody
-@RequestMapping("/persons")
+@RequestMapping("/person")
 public class PersonController {
 
     @Autowired
     private PersonService personService;
 
-    Logger logger = LoggerFactory.getLogger(PersonController.class);
+    //Logger logger = (Logger) LoggerFactory.getLogger(PersonController.class);
 
-    @GetMapping("/personInfo/{firstName}/{lastName}")//Ok
-    @ResponseStatus(code = HttpStatus.OK, reason = "OK")
-    public ResponseEntity <List<PersonInfoDto>>getByFirstAndLastName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
-        logger.info("Calling method: PersonInfo/firstName = " + firstName + " /lastName = " + lastName);
-        ResponseEntity<List<PersonInfoDto>> result = ResponseEntity.status(HttpStatus.OK).body(personService.getByFirstNameAndLastName(firstName, lastName));
-        logger.info("HttpResponse = " + result.getStatusCode());
+    /**
+     * Create / Add new Person
+     *
+     * @param person
+     * @return creation
+     * @throws IOException
+     * @throws JSONException
+     */
+    @PostMapping
+    public ResponseEntity<Person> createPerson(@RequestBody Person person) throws IOException, JSONException {
+       person = (Person) personService.createPerson(person);
+       ResponseEntity<Person> creation = (ResponseEntity<Person>) ResponseEntity.status(HttpStatus.CREATED).body(person);
+       return creation;
+    }
+
+
+    /**
+     * Read / Get all Persons
+     *
+     * @return results
+     * @throws JSONException
+     * @throws IOException
+     */
+    @GetMapping
+    public ResponseEntity<List<Person>> getAllPerson() throws JSONException, IOException {
+        //logger.info("Calling method");
+        List<Person> personList = personService.getAllPerson();
+        ResponseEntity<List<Person>> result = ResponseEntity.status(HttpStatus.OK).body(personList);
         return result;
+
     }
 
-    @GetMapping("/communityEmail/{city}")//Ok
-    public ResponseEntity<List<CommunityEmailDto>>getAllCommunityEmail(@PathVariable("city") String city, @PathVariable ("email") List<String> email){
-        logger.info("Calling method: CommunityEmail/city = " + city + "/email = " + email);
-        ResponseEntity<List<CommunityEmailDto>> mail = ResponseEntity.status(HttpStatus.OK).body(personService.getBycity(email));
-        logger.info("HttpResponse: " + mail.getStatusCode());
-        return mail;
+    /**
+     * Update an existing person
+     *
+     * @param person
+     * @throws IOException
+     * @throws JSONException
+     * @return
+     */
+    @PutMapping
+    public ResponseEntity<?> updatePerson(@RequestBody Person person) throws IOException, JSONException {
+        List<Person> updatedPerson = personService.updatePerson(person);
+        return new ResponseEntity<>(updatedPerson, HttpStatus.OK);
     }
 
-    @GetMapping("/childAlert/{address}")//Ok
-    public ResponseEntity<List<ChildAlertDto>>getPersonAgedEighteenAndUnder(@PathVariable("Age") int age, @PathVariable("address") String address){
-    logger.info("Calling method: ChildAlert/Age = " + age + "/address = " + address);
-    ResponseEntity<List<ChildAlertDto>> alert = ResponseEntity.status(HttpStatus.OK).body(personService.getByAddress(address));
-        logger.info("HttpResponse: " + alert.getStatusCode());
-    return alert ;}
+
+    /**
+     * Delete a person from the record
+     * @param person
+     * @return
+     * @throws IOException
+     */
+        @DeleteMapping
+        public ResponseEntity<String> deletePerson(@RequestBody Person person) throws IOException {
+            personService.deletePerson(person);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Successfully Deleted!");
+        }
+
+
 }
 
 

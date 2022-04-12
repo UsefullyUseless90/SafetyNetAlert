@@ -1,18 +1,14 @@
 package com.SafetyNetAlert.SafetyNet;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@ComponentScan("com.*")
 public class SafetyNetApplication {
-
-	@Bean
-	public ModelMapper modelmapper() {
-		return new ModelMapper();
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SafetyNetApplication.class, args);
