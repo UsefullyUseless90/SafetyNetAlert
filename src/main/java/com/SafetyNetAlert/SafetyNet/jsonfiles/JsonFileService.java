@@ -29,7 +29,6 @@ public class JsonFileService {
      * @throws IOException
      */
     public DataJson jsonReaderService() throws IOException {
-        File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
         List<String> allLines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
         StringBuilder myLine = new StringBuilder();
         for (String line : allLines) {

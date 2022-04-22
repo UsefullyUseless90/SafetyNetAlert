@@ -30,9 +30,9 @@ public class PersonController {
      */
     @PostMapping
     public ResponseEntity<Person> createPerson(@RequestBody Person person) throws IOException, JSONException {
-       person = (Person) personService.createPerson(person);
-       ResponseEntity<Person> creation = (ResponseEntity<Person>) ResponseEntity.status(HttpStatus.CREATED).body(person);
-       return creation;
+        personService.createPerson(person);
+        ResponseEntity<Person> creation = ResponseEntity.status(HttpStatus.CREATED).body(person);
+        return creation;
     }
 
 

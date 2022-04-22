@@ -3,16 +3,22 @@ package com.SafetyNetAlert.SafetyNet.service;
 import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
 import com.SafetyNetAlert.SafetyNet.model.FireStation;
 import com.SafetyNetAlert.SafetyNet.model.Person;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+@Service
+@RequiredArgsConstructor
 public class FireStationServiceImpl implements FireStationService{
+
     File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
+
     @Autowired
     private JsonFileService jsonFileService;
 
@@ -40,8 +46,8 @@ public class FireStationServiceImpl implements FireStationService{
      * @throws IOException
      */
     public List<FireStation> getAllStation() throws IOException {
-
-        return jsonFileService.jsonReaderService().getFirestations();
+        List<FireStation> culvertStationList = jsonFileService.jsonReaderService().getFirestations();
+        return culvertStationList;
     }
 
     /**
@@ -77,7 +83,7 @@ public class FireStationServiceImpl implements FireStationService{
      */
     @Override
     public List<FireStation> deleteStation(FireStation station) throws IOException {
-        List<FireStation> stationList = this.getAllStation();// create a list and add to it the persons
+        List<FireStation> stationList = this.getAllStation();// create a list and add to it the stations
 
         //Instantiate the loop that'll look in the list for any match
         for (int i = 0; i < stationList.size(); i++) {

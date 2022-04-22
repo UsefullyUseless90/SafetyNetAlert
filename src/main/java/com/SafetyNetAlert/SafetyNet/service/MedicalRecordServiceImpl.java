@@ -2,17 +2,23 @@ package com.SafetyNetAlert.SafetyNet.service;
 
 import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
 import com.SafetyNetAlert.SafetyNet.model.MedicalRecord;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class MedicalRecordServiceImpl implements MedicalRecordService {
     File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
+
     @Autowired
     private JsonFileService jsonFileService;
+
 
     /**
      * @param record

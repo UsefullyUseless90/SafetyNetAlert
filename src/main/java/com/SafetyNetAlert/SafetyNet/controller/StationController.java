@@ -1,9 +1,9 @@
 package com.SafetyNetAlert.SafetyNet.controller;
 
 import com.SafetyNetAlert.SafetyNet.model.FireStation;
-import com.SafetyNetAlert.SafetyNet.model.Person;
 import com.SafetyNetAlert.SafetyNet.service.FireStationService;
 import org.json.JSONException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-
+@RequestMapping("/firestation")
 public class StationController {
-
+    @Autowired
     FireStationService fireStationService;
     /**
      * Create / Add new station
@@ -26,8 +26,8 @@ public class StationController {
      */
     @PostMapping
     public ResponseEntity<FireStation> createStation(@RequestBody FireStation station) throws IOException, JSONException {
-        station = (FireStation) fireStationService.createStation(station);
-        ResponseEntity<FireStation> creation = (ResponseEntity<FireStation>) ResponseEntity.status(HttpStatus.CREATED).body(station);
+        fireStationService.createStation(station);
+        ResponseEntity<FireStation> creation = ResponseEntity.status(HttpStatus.CREATED).body(station);
         return creation;
     }
 
@@ -75,7 +75,5 @@ public class StationController {
         return ResponseEntity.status(HttpStatus.OK).body("Successfully Deleted!");
     }
 
-
-}
 
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 @Service
 @RequiredArgsConstructor
@@ -46,15 +45,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<Person> getAllPerson() throws IOException {
-
-        return jsonFileService.jsonReaderService().getPersons();
+    List<Person> culvertPeopleList = jsonFileService.jsonReaderService().getPersons();
+        return culvertPeopleList;
     }
 
     @Override
     public List<Person> updatePerson(Person person) throws IOException, JSONException {
-        // US : Bénédicte habite Paris, elle vient de se marier avec Robert.
-        // elle doit maintenant porte le nom de DUPOND au lieu de MACRON
-        // comment je peux l'identifier parmi tous les Parisiens et ainsi update son nom ?
         List<Person> personList = this.getAllPerson();// create a list and add to it the persons
 
         for (int i = 0; i < personList.size(); i++) {
