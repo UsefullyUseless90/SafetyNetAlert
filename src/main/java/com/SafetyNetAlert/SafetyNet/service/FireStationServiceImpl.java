@@ -88,7 +88,7 @@ public class FireStationServiceImpl implements FireStationService{
         //Instantiate the loop that'll look in the list for any match
         for (int i = 0; i < stationList.size(); i++) {
             FireStation f = stationList.get(i);
-            if (Objects.equals(f.getStation(), station.getStation()) && f.getAddress().equals(station.getAddress())) {// In case of any match the value is deleted
+            if (f.getStation().equals(station.getStation()) && f.getAddress().equals(station.getAddress())) {// In case of any match the value is deleted
                 stationList.remove(i);
                 break;
             }

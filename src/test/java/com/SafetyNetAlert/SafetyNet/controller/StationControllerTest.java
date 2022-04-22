@@ -41,7 +41,7 @@ class StationControllerTest {
 
         FireStation station = new FireStation();
         station.setAddress("42 Main St");
-        station.setStation(2);
+        station.setStation("2");
         String content = (new ObjectMapper()).writeValueAsString(station);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -70,7 +70,7 @@ class StationControllerTest {
     void testUpdateStation() throws Exception {
         FireStation station = new FireStation();
         station.setAddress("42 Main St");
-        station.setStation(2);
+        station.setStation("2");
         String content = (new ObjectMapper()).writeValueAsString(station);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -87,7 +87,7 @@ class StationControllerTest {
     void testDeleteStation() throws Exception {
         FireStation station = new FireStation();
         station.setAddress("42 Main St");
-        station.setStation(2);
+        station.setStation("2");
         String content = (new ObjectMapper()).writeValueAsString(station);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation")
                 .contentType(MediaType.APPLICATION_JSON)

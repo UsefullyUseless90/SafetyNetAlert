@@ -9,5 +9,5 @@ import lombok.ToString;
 @ToString
 public class FireStation {
     private String address;
-    private int station;
+    private String station;
 }
