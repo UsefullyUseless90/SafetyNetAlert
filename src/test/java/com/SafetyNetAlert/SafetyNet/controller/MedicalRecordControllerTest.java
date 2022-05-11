@@ -43,7 +43,7 @@ class MedicalRecordControllerTest {
     void testCreateRecord() throws Exception {
         record.setFirstName("Jim");
         record.setLastName("Halpert");
-        record.setBirthdate("04/12/85");
+        //record.setBirthdate("04/12/85"); convert string to localDate!
         record.setAllergies(Collections.singletonList("100mg Aspirin"));
         record.setMedications(Collections.singletonList("SeaShells"));
         String content = (new ObjectMapper()).writeValueAsString(record);
@@ -73,7 +73,7 @@ class MedicalRecordControllerTest {
     void testUpdateRecord() throws Exception {
         record.setFirstName("Jim");
         record.setLastName("Halpert");
-        record.setBirthdate("04/12/85");
+        //record.setBirthdate("04/12/85");
         record.setAllergies(Collections.singletonList("100mg Aspirin"));
         record.setMedications(Collections.singletonList("SeaShells"));
         String content = (new ObjectMapper()).writeValueAsString(record);
@@ -92,7 +92,7 @@ class MedicalRecordControllerTest {
     void testDeleteRecord() throws Exception {
         record.setFirstName("Jim");
         record.setLastName("Halpert");
-        record.setBirthdate("04/12/85");
+        //record.setBirthdate("04/12/85");
         record.setAllergies(Collections.singletonList("100mg Aspirin"));
         record.setMedications(Collections.singletonList("SeaShells"));
         String content = (new ObjectMapper()).writeValueAsString(record);

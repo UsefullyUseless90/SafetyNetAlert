@@ -1,8 +1,7 @@
 package com.SafetyNetAlert.SafetyNet.service;
 
 import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
-import com.SafetyNetAlert.SafetyNet.model.DataJson;
-import com.SafetyNetAlert.SafetyNet.model.Person;
+import com.SafetyNetAlert.SafetyNet.model.*;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +19,7 @@ public class PersonServiceImpl implements PersonService {
     File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
     @Autowired
     private JsonFileService jsonFileService;
+
 
     /**
      * @param person
@@ -45,7 +46,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<Person> getAllPerson() throws IOException {
-    List<Person> culvertPeopleList = jsonFileService.jsonReaderService().getPersons();
+        List<Person> culvertPeopleList = jsonFileService.jsonReaderService().getPersons();
         return culvertPeopleList;
     }
 
@@ -83,5 +84,24 @@ public class PersonServiceImpl implements PersonService {
         this.jsonFileService.updatePersons(personList);
 
         return personList;
+    }
+
+    @Override
+        public List<Person> matchingAddress(Person person, FireStation fireStation) throws IOException {
+            List<Person> personList = this.getAllPerson();
+            List<FireStation> stationList = jsonFileService.jsonReaderService().getFirestations();
+            List<Person> matchingList = new ArrayList<>();
+
+            for (int i = 0; i < personList.size(); i++) {
+                Person p = personList.get(i);
+                for (int f = 0; f < stationList.size(); f++) {
+                    FireStation fs = stationList.get(f);
+                    if (p.getAddress().equals(person.getAddress()) && fs.getAddress().equals(fireStation.getAddress())) {// In case of any match the value is deleted
+                        matchingList.add(p);
+                        break;
+                    }
+                }
+            }
+            return personList;
     }
 }

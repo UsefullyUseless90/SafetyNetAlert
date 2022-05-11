@@ -3,6 +3,7 @@ package com.SafetyNetAlert.SafetyNet.service;
 import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
 import com.SafetyNetAlert.SafetyNet.model.FireStation;
 import com.SafetyNetAlert.SafetyNet.model.Person;
+import com.SafetyNetAlert.SafetyNet.model.V2FireStationList;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class FireStationServiceImpl implements FireStationService{
+public class FireStationServiceImpl implements FireStationService {
 
     File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
 
@@ -41,17 +42,19 @@ public class FireStationServiceImpl implements FireStationService{
     }
 
     /**
-     *
      * @return list of all stations
      * @throws IOException
      */
     public List<FireStation> getAllStation() throws IOException {
         List<FireStation> culvertStationList = jsonFileService.jsonReaderService().getFirestations();
+
+        //temporaire à supprimer!
+        V2FireStationList v2FireStationList = new V2FireStationList(jsonFileService.jsonReaderService());
+        //
         return culvertStationList;
     }
 
     /**
-     *
      * @param station
      * @return an updated list of all stations
      * @throws IOException
@@ -64,7 +67,7 @@ public class FireStationServiceImpl implements FireStationService{
 
         //Instantiate the loop that'll look in the list for any match
         for (int i = 0; i < stationList.size(); i++) {
-           FireStation f = stationList.get(i);
+            FireStation f = stationList.get(i);
             if (Objects.equals(f.getStation(), station.getStation()) && f.getAddress().equals(station.getAddress())) { // In case of any match the value is replaced by a new one
                 stationList.set(i, station);
                 break;
@@ -76,7 +79,6 @@ public class FireStationServiceImpl implements FireStationService{
     }
 
     /**
-     *
      * @param station
      * @return
      * @throws IOException
@@ -96,6 +98,21 @@ public class FireStationServiceImpl implements FireStationService{
         this.jsonFileService.updateStations(stationList); // Writing in JSON file
 
         return stationList;
+    }
+
+    private FireStation StationFinder(FireStation station) throws IOException {
+
+        List<FireStation> stationList = this.getAllStation();// create a list and add to it the stations
+
+        //Instantiate the loop that'll look in the list for any match
+        for (int i = 0; i < stationList.size(); i++) {
+            FireStation f = stationList.get(i);
+            if (f.getStation().equals(station.getStation())) {
+                f.setAddress(station.getAddress());
+                break;
+            }
+        }
+        return station;// non définitif
     }
 }
 
