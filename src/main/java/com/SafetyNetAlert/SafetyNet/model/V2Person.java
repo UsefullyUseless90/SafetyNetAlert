@@ -1,17 +1,20 @@
 package com.SafetyNetAlert.SafetyNet.model;
 
+import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @ToString
-public class V2Person extends Person {
+public class V2Person {
 
     private String firstName;
     private String lastName;
@@ -22,10 +25,9 @@ public class V2Person extends Person {
     private List<String> allergies;
 
     /**
-     *
      * @param p
      */
-    public V2Person(Person p) {
+    public V2Person(Person p){
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
         this.birthdate = null;
@@ -35,13 +37,21 @@ public class V2Person extends Person {
         this.allergies = new ArrayList<>();
 
     }
-
     /**
-     * @param dataJson
+     *
+     * @return
      */
-    public void initMedicalRecords(DataJson dataJson) {
+    public V2Person initMedicalRecords() throws IOException {
+        DataJson dataJson = new DataJson();
+        JsonFileService json = new JsonFileService();
+        dataJson = json.jsonReaderService();
+        this.setMedications(new ArrayList<>());
         for (MedicalRecord mR : dataJson.getMedicalrecords()) {
-            getMedications().add(String.valueOf(mR));
+            int m = 0;
+            while (m < medications.size()) {
+                getMedications().add(String.valueOf(mR));
+            }
+            break;
         }
         for (Person p : dataJson.getPersons()) {
             for (int i = 0; i < medications.size(); i++) {
@@ -53,6 +63,7 @@ public class V2Person extends Person {
                 break;
             }
         }
+        this.setAllergies(new ArrayList<>());
         for (MedicalRecord mR : dataJson.getMedicalrecords()) {
             getAllergies().add(String.valueOf(mR));
         }
@@ -70,11 +81,16 @@ public class V2Person extends Person {
                 boolean found = false;
                 if (getFirstName().equals(p.getFirstName())) {
                 } else if (getLastName().equals(p.getLastName())) ;
-                this.getBirthdate();
+                String naissance = mR.getBirthdate();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+                LocalDate localDate = LocalDate.parse(naissance, formatter);
+                this.setBirthdate(localDate);
                 found = true;
                 break;
             }
-
+            break;
         }
+        return null;
     }
+
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class V2FireStationList {
 
     private List<V2FireStation> stations;
 
-    public V2FireStationList(DataJson dataJson) {
+    public V2FireStationList(DataJson dataJson) throws IOException {
         this.setStations(new ArrayList<>());
         for (FireStation f : dataJson.getFirestations()){
          this.getStations().add(new V2FireStation(f));
