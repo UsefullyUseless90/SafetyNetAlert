@@ -27,7 +27,7 @@ public class V2Person {
     /**
      * @param p
      */
-    public V2Person(Person p){
+    public V2Person(Person p) {
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
         this.birthdate = null;
@@ -37,60 +37,30 @@ public class V2Person {
         this.allergies = new ArrayList<>();
 
     }
+
     /**
-     *
-     * @return
      */
-    public V2Person initMedicalRecords() throws IOException {
+    public void initMedicalRecords() throws IOException {
         DataJson dataJson = new DataJson();
         JsonFileService json = new JsonFileService();
         dataJson = json.jsonReaderService();
-        this.setMedications(new ArrayList<>());
+        List<MedicalRecord> healthData = new ArrayList<>();
+        healthData = dataJson.getMedicalrecords();
+        int i = 0;
         for (MedicalRecord mR : dataJson.getMedicalrecords()) {
-            int m = 0;
-            while (m < medications.size()) {
-                getMedications().add(String.valueOf(mR));
-            }
-            break;
-        }
-        for (Person p : dataJson.getPersons()) {
-            for (int i = 0; i < medications.size(); i++) {
-                boolean found = false;
-                if (this.getMedications().get(i).equals(p.getLastName())) {
-                } else if (this.getMedications().get(i).equals(p.getFirstName())) ;
-                this.getMedications().add(String.valueOf(p));
-                found = true;
-                break;
-            }
-        }
-        this.setAllergies(new ArrayList<>());
-        for (MedicalRecord mR : dataJson.getMedicalrecords()) {
-            getAllergies().add(String.valueOf(mR));
-        }
-        for (Person p : dataJson.getPersons()) {
-            for (int i = 0; i < allergies.size(); i++) {
-                boolean found = false;
-                if (this.getAllergies().get(i).equals(p.getLastName())) {
-                } else if (this.getAllergies().get(i).equals(p.getFirstName())) ;
-                this.getAllergies().add(String.valueOf(p));
-                found = true;
-                break;
-            }
-            this.setBirthdate(getBirthdate());
-            for (MedicalRecord mR : dataJson.getMedicalrecords()) {
-                boolean found = false;
-                if (getFirstName().equals(p.getFirstName())) {
-                } else if (getLastName().equals(p.getLastName())) ;
-                String naissance = mR.getBirthdate();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-                LocalDate localDate = LocalDate.parse(naissance, formatter);
-                this.setBirthdate(localDate);
-                found = true;
+            while (i < healthData.size()) {
+                if (mR.getFirstName() == this.firstName && mR.getLastName() == this.lastName) {
+                    mR.getMedications().add(getMedications().get(i));
+                    mR.getAllergies().add(getAllergies().get(i));
+                    String naissance = mR.getBirthdate();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+                    LocalDate localDate = LocalDate.parse(naissance, formatter);
+                    this.setBirthdate(localDate);
+                    break;
+                }
                 break;
             }
             break;
         }
-        return null;
     }
-
 }

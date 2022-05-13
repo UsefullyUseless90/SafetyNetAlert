@@ -41,6 +41,7 @@ public class V2Family {
         int i = 0;
         while(i < personList.size()) {
             this.getPersonList().get(i).initMedicalRecords();
+            break;
         }
         calculateAge(p);
 
