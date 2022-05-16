@@ -1,5 +1,6 @@
 package com.SafetyNetAlert.SafetyNet.model;
 
+import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +21,6 @@ public class V2Family {
     private int adults;
     private int children;
     private List<V2Person> personList;
-
     /**
      * @param address
      */
@@ -35,14 +35,21 @@ public class V2Family {
     /**
      * @param p
      */
+    int counter = 0;
     public void addPerson(Person p) throws IOException {
+
+        DataJson dataJson = new DataJson();
+        JsonFileService jsonFileService = new JsonFileService();
+        dataJson = jsonFileService.jsonReaderService();
+
         this.getPersonList().add(new V2Person(p));
         this.houseHoldMembers++;
-        int i = 0;
-        while(i < personList.size()) {
-            this.getPersonList().get(i).initMedicalRecords();
-            break;
+        int i = counter;
+        while(i< this.personList.size()) {
+                this.getPersonList().get(i).initMedicalRecords(dataJson);
+                break;
         }
+        this.counter++;
         calculateAge(p);
 
     }

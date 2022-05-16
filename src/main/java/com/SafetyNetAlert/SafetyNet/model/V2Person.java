@@ -39,28 +39,27 @@ public class V2Person {
     }
 
     /**
+     *
      */
-    public void initMedicalRecords() throws IOException {
-        DataJson dataJson = new DataJson();
-        JsonFileService json = new JsonFileService();
-        dataJson = json.jsonReaderService();
-        List<MedicalRecord> healthData = new ArrayList<>();
-        healthData = dataJson.getMedicalrecords();
+
+    public void initMedicalRecords(DataJson dataJson) throws IOException {
+
+        List<MedicalRecord> records = new ArrayList<>();
+        records = dataJson.getMedicalrecords();
         int i = 0;
+        while(i< records.size()){
         for (MedicalRecord mR : dataJson.getMedicalrecords()) {
-            while (i < healthData.size()) {
-                if (mR.getFirstName() == this.firstName && mR.getLastName() == this.lastName) {
-                    mR.getMedications().add(getMedications().get(i));
-                    mR.getAllergies().add(getAllergies().get(i));
+                if (this.getFirstName().equals(mR.getFirstName()) && this.getLastName().equals(mR.getLastName())) {
+                    this.setMedications(mR.getMedications());
+                    this.setAllergies(mR.getAllergies());
                     String naissance = mR.getBirthdate();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
                     LocalDate localDate = LocalDate.parse(naissance, formatter);
                     this.setBirthdate(localDate);
                     break;
                 }
+            }
                 break;
             }
-            break;
         }
     }
-}
