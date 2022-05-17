@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -37,20 +38,9 @@ public class V2Family {
      */
     int counter = 0;
     public void addPerson(Person p) throws IOException {
-
-        DataJson dataJson = new DataJson();
-        JsonFileService jsonFileService = new JsonFileService();
-        dataJson = jsonFileService.jsonReaderService();
-
         this.getPersonList().add(new V2Person(p));
         this.houseHoldMembers++;
-        int i = counter;
-        while(i< this.personList.size()) {
-                this.getPersonList().get(i).initMedicalRecords(dataJson);
-                break;
-        }
-        this.counter++;
-        calculateAge(p);
+        //calculateAge(p);
 
     }
         public void calculateAge(Person p) {

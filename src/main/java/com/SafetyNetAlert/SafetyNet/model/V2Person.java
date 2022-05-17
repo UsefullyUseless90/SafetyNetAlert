@@ -8,8 +8,10 @@ import lombok.ToString;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -42,24 +44,14 @@ public class V2Person {
      *
      */
 
-    public void initMedicalRecords(DataJson dataJson) throws IOException {
+    public void initMedicalRecords(MedicalRecord medicalRecord) throws IOException {
+        this.setMedications(medicalRecord.getMedications());
+        this.setAllergies(medicalRecord.getAllergies());
+        //MM/JJ/AAAA
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy", Locale.US);
+        LocalDate localDate = LocalDate.parse(medicalRecord.getBirthdate(), formatter);
+        this.setBirthdate(localDate);
 
-        List<MedicalRecord> records = new ArrayList<>();
-        records = dataJson.getMedicalrecords();
-        int i = 0;
-        while(i< records.size()){
-        for (MedicalRecord mR : dataJson.getMedicalrecords()) {
-                if (this.getFirstName().equals(mR.getFirstName()) && this.getLastName().equals(mR.getLastName())) {
-                    this.setMedications(mR.getMedications());
-                    this.setAllergies(mR.getAllergies());
-                    String naissance = mR.getBirthdate();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-                    LocalDate localDate = LocalDate.parse(naissance, formatter);
-                    this.setBirthdate(localDate);
-                    break;
-                }
-            }
-                break;
-            }
-        }
+
     }
+}
