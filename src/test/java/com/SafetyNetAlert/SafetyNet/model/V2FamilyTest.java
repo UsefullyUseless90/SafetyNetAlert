@@ -18,7 +18,7 @@ class V2FamilyTest {
         assertEquals("42 Main St", actualV2Family.getAddress());
         assertTrue(actualV2Family.getPersonList().isEmpty());
         assertEquals(0, actualV2Family.getHouseHoldMembers());
-        assertEquals(0, actualV2Family.getCounter());
+       // assertEquals(0, actualV2Family.getCounter());
         assertEquals(0, actualV2Family.getChildren());
         assertEquals(0, actualV2Family.getAdults());
     }
@@ -77,7 +77,7 @@ class V2FamilyTest {
         //   See https://diff.blue/R013 to resolve this issue.
 
         V2Family v2Family = new V2Family("42 Main St");
-        v2Family.setCounter(3);
+        //v2Family.setCounter(3);
 
         Person person = new Person();
         person.setAddress("42 Main St");
@@ -124,7 +124,7 @@ class V2FamilyTest {
     }
 
     /**
-     * Method under test: {@link V2Family#calculateAge(Person)}
+
      */
     @Test
     void testCalculateAge() {
@@ -138,7 +138,7 @@ class V2FamilyTest {
         person.setLastName("Doe");
         person.setPhone("4105551212");
         person.setZip("21654");
-        v2Family.calculateAge(person);
+        v2Family.calculateAge();
         assertEquals("42 Main St", person.getAddress());
         assertEquals("21654", person.getZip());
         assertEquals("4105551212", person.getPhone());
@@ -149,7 +149,7 @@ class V2FamilyTest {
         assertEquals("42 Main St", v2Family.getAddress());
         assertTrue(v2Family.getPersonList().isEmpty());
         assertEquals(0, v2Family.getHouseHoldMembers());
-        assertEquals(0, v2Family.getCounter());
+        //assertEquals(0, v2Family.getCounter());
         assertEquals(0, v2Family.getChildren());
         assertEquals(0, v2Family.getAdults());
     }

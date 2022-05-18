@@ -22,6 +22,7 @@ public class V2Family {
     private int adults;
     private int children;
     private List<V2Person> personList;
+
     /**
      * @param address
      */
@@ -36,29 +37,31 @@ public class V2Family {
     /**
      * @param p
      */
-    int counter = 0;
     public void addPerson(Person p) throws IOException {
         this.getPersonList().add(new V2Person(p));
         this.houseHoldMembers++;
-        //calculateAge(p);
 
     }
-        public void calculateAge(Person p) {
 
-            for (V2Person p2 : personList) {
-                LocalDate birthDate = p2.getBirthdate();
-                LocalDate now = LocalDate.now();
-                int difference = Period.between(birthDate, now).getYears();
-                for (int i = 0; i < personList.size(); i++) {
+    public void calculateAge() {
+
+            for (int i = 0; i < personList.size(); i++) {
+                for(V2Person p2 : getPersonList()){
+                if (getPersonList().get(i).getLastName().equals(p2.getLastName())
+                        && getPersonList().get(i).getFirstName().equals(p2.getFirstName())) {
+                    LocalDate birthDate = this.getPersonList().get(i).getBirthdate();
+                    LocalDate now = LocalDate.now();
+                    int difference = Period.between(birthDate, now).getYears();
                     if (difference >= 18) {
-                        this.adults = +1;
-                    } else {
-                        this.children = +1;
-                        break;
+                        this.adults++;
+
+                    }
+                    if(difference < 18){
+                        this.children++;
                     }
                 }
             }
+
         }
-
     }
-
+}
