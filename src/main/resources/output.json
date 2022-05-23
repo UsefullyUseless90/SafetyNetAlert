@@ -1,0 +1,344 @@
+{
+  "stationList" : [ {
+    "id" : "3",
+    "familyList" : [ {
+      "address" : "1509 Culver St",
+      "houseHoldMembers" : 5,
+      "adults" : 3,
+      "children" : 2,
+      "personList" : [ {
+        "firstName" : "John",
+        "lastName" : "Boyd",
+        "birthdate" : "1984-03-06",
+        "phone" : "841-874-6512",
+        "email" : "jaboyd@email.com",
+        "medications" : [ "aznol:350mg", "hydrapermazol:100mg" ],
+        "allergies" : [ "nillacilan" ]
+      }, {
+        "firstName" : "Jacob",
+        "lastName" : "Boyd",
+        "birthdate" : "1989-03-06",
+        "phone" : "841-874-6513",
+        "email" : "drk@email.com",
+        "medications" : [ "pharmacol:5000mg", "terazine:10mg", "noznazol:250mg" ],
+        "allergies" : [ ]
+      }, {
+        "firstName" : "Tenley",
+        "lastName" : "Boyd",
+        "birthdate" : "2012-02-18",
+        "phone" : "841-874-6512",
+        "email" : "tenz@email.com",
+        "medications" : [ ],
+        "allergies" : [ "peanut" ]
+      }, {
+        "firstName" : "Roger",
+        "lastName" : "Boyd",
+        "birthdate" : "2017-09-06",
+        "phone" : "841-874-6512",
+        "email" : "jaboyd@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      }, {
+        "firstName" : "Felicia",
+        "lastName" : "Boyd",
+        "birthdate" : "1986-01-08",
+        "phone" : "841-874-6544",
+        "email" : "jaboyd@email.com",
+        "medications" : [ "tetracyclaz:650mg" ],
+        "allergies" : [ "xilliathal" ]
+      } ]
+    } ]
+  }, {
+    "id" : "2",
+    "familyList" : [ {
+      "address" : "29 15th St",
+      "houseHoldMembers" : 1,
+      "adults" : 1,
+      "children" : 0,
+      "personList" : [ {
+        "firstName" : "Jonathan",
+        "lastName" : "Marrack",
+        "birthdate" : "1989-01-03",
+        "phone" : "841-874-6513",
+        "email" : "drk@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      } ]
+    } ]
+  }, {
+    "id" : "3",
+    "familyList" : [ {
+      "address" : "834 Binoc Ave",
+      "houseHoldMembers" : 1,
+      "adults" : 0,
+      "children" : 1,
+      "personList" : [ {
+        "firstName" : "Tessa",
+        "lastName" : "Carman",
+        "birthdate" : "2012-02-18",
+        "phone" : "841-874-6512",
+        "email" : "tenz@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      } ]
+    } ]
+  }, {
+    "id" : "1",
+    "familyList" : [ {
+      "address" : "644 Gershwin Cir",
+      "houseHoldMembers" : 1,
+      "adults" : 1,
+      "children" : 0,
+      "personList" : [ {
+        "firstName" : "Peter",
+        "lastName" : "Duncan",
+        "birthdate" : "2000-09-06",
+        "phone" : "841-874-6512",
+        "email" : "jaboyd@email.com",
+        "medications" : [ ],
+        "allergies" : [ "shellfish" ]
+      } ]
+    } ]
+  }, {
+    "id" : "3",
+    "familyList" : [ {
+      "address" : "748 Townings Dr",
+      "houseHoldMembers" : 2,
+      "adults" : 2,
+      "children" : 0,
+      "personList" : [ {
+        "firstName" : "Foster",
+        "lastName" : "Shepard",
+        "birthdate" : "1980-01-08",
+        "phone" : "841-874-6544",
+        "email" : "jaboyd@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      }, {
+        "firstName" : "Clive",
+        "lastName" : "Ferguson",
+        "birthdate" : "1994-03-06",
+        "phone" : "841-874-6741",
+        "email" : "clivfd@ymail.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      } ]
+    } ]
+  }, {
+    "id" : "3",
+    "familyList" : [ {
+      "address" : "112 Steppes Pl",
+      "houseHoldMembers" : 3,
+      "adults" : 3,
+      "children" : 0,
+      "personList" : [ {
+        "firstName" : "Tony",
+        "lastName" : "Cooper",
+        "birthdate" : "1994-03-06",
+        "phone" : "841-874-6874",
+        "email" : "tcoop@ymail.com",
+        "medications" : [ "hydrapermazol:300mg", "dodoxadin:30mg" ],
+        "allergies" : [ "shellfish" ]
+      }, {
+        "firstName" : "Ron",
+        "lastName" : "Peters",
+        "birthdate" : "1965-04-06",
+        "phone" : "841-874-8888",
+        "email" : "jpeter@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      }, {
+        "firstName" : "Allison",
+        "lastName" : "Boyd",
+        "birthdate" : "1965-03-15",
+        "phone" : "841-874-9888",
+        "email" : "aly@imail.com",
+        "medications" : [ "aznol:200mg" ],
+        "allergies" : [ "nillacilan" ]
+      } ]
+    } ]
+  }, {
+    "id" : "4",
+    "familyList" : [ {
+      "address" : "489 Manchester St",
+      "houseHoldMembers" : 1,
+      "adults" : 1,
+      "children" : 0,
+      "personList" : [ {
+        "firstName" : "Lily",
+        "lastName" : "Cooper",
+        "birthdate" : "1994-03-06",
+        "phone" : "841-874-9845",
+        "email" : "lily@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      } ]
+    } ]
+  }, {
+    "id" : "2",
+    "familyList" : [ {
+      "address" : "892 Downing Ct",
+      "houseHoldMembers" : 3,
+      "adults" : 2,
+      "children" : 1,
+      "personList" : [ {
+        "firstName" : "Sophia",
+        "lastName" : "Zemicks",
+        "birthdate" : "1988-03-06",
+        "phone" : "841-874-7878",
+        "email" : "soph@email.com",
+        "medications" : [ "aznol:60mg", "hydrapermazol:900mg", "pharmacol:5000mg", "terazine:500mg" ],
+        "allergies" : [ "peanut", "shellfish", "aznol" ]
+      }, {
+        "firstName" : "Warren",
+        "lastName" : "Zemicks",
+        "birthdate" : "1985-03-06",
+        "phone" : "841-874-7512",
+        "email" : "ward@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      }, {
+        "firstName" : "Zach",
+        "lastName" : "Zemicks",
+        "birthdate" : "2017-03-06",
+        "phone" : "841-874-7512",
+        "email" : "zarc@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      } ]
+    } ]
+  }, {
+    "id" : "1",
+    "familyList" : [ {
+      "address" : "908 73rd St",
+      "houseHoldMembers" : 2,
+      "adults" : 2,
+      "children" : 0,
+      "personList" : [ {
+        "firstName" : "Reginold",
+        "lastName" : "Walker",
+        "birthdate" : "1979-08-30",
+        "phone" : "841-874-8547",
+        "email" : "reg@email.com",
+        "medications" : [ "thradox:700mg" ],
+        "allergies" : [ "illisoxian" ]
+      }, {
+        "firstName" : "Jamie",
+        "lastName" : "Peters",
+        "birthdate" : "1982-03-06",
+        "phone" : "841-874-7462",
+        "email" : "jpeter@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      } ]
+    } ]
+  }, {
+    "id" : "4",
+    "familyList" : [ {
+      "address" : "112 Steppes Pl",
+      "houseHoldMembers" : 3,
+      "adults" : 3,
+      "children" : 0,
+      "personList" : [ {
+        "firstName" : "Tony",
+        "lastName" : "Cooper",
+        "birthdate" : "1994-03-06",
+        "phone" : "841-874-6874",
+        "email" : "tcoop@ymail.com",
+        "medications" : [ "hydrapermazol:300mg", "dodoxadin:30mg" ],
+        "allergies" : [ "shellfish" ]
+      }, {
+        "firstName" : "Ron",
+        "lastName" : "Peters",
+        "birthdate" : "1965-04-06",
+        "phone" : "841-874-8888",
+        "email" : "jpeter@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      }, {
+        "firstName" : "Allison",
+        "lastName" : "Boyd",
+        "birthdate" : "1965-03-15",
+        "phone" : "841-874-9888",
+        "email" : "aly@imail.com",
+        "medications" : [ "aznol:200mg" ],
+        "allergies" : [ "nillacilan" ]
+      } ]
+    } ]
+  }, {
+    "id" : "1",
+    "familyList" : [ {
+      "address" : "947 E. Rose Dr",
+      "houseHoldMembers" : 3,
+      "adults" : 2,
+      "children" : 1,
+      "personList" : [ {
+        "firstName" : "Brian",
+        "lastName" : "Stelzer",
+        "birthdate" : "1975-12-06",
+        "phone" : "841-874-7784",
+        "email" : "bstel@email.com",
+        "medications" : [ "ibupurin:200mg", "hydrapermazol:400mg" ],
+        "allergies" : [ "nillacilan" ]
+      }, {
+        "firstName" : "Shawna",
+        "lastName" : "Stelzer",
+        "birthdate" : "1980-07-08",
+        "phone" : "841-874-7784",
+        "email" : "ssanw@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      }, {
+        "firstName" : "Kendrik",
+        "lastName" : "Stelzer",
+        "birthdate" : "2014-03-06",
+        "phone" : "841-874-7784",
+        "email" : "bstel@email.com",
+        "medications" : [ "noxidian:100mg", "pharmacol:2500mg" ],
+        "allergies" : [ ]
+      } ]
+    } ]
+  }, {
+    "id" : "3",
+    "familyList" : [ {
+      "address" : "748 Townings Dr",
+      "houseHoldMembers" : 2,
+      "adults" : 2,
+      "children" : 0,
+      "personList" : [ {
+        "firstName" : "Foster",
+        "lastName" : "Shepard",
+        "birthdate" : "1980-01-08",
+        "phone" : "841-874-6544",
+        "email" : "jaboyd@email.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      }, {
+        "firstName" : "Clive",
+        "lastName" : "Ferguson",
+        "birthdate" : "1994-03-06",
+        "phone" : "841-874-6741",
+        "email" : "clivfd@ymail.com",
+        "medications" : [ ],
+        "allergies" : [ ]
+      } ]
+    } ]
+  }, {
+    "id" : "2",
+    "familyList" : [ {
+      "address" : "951 LoneTree Rd",
+      "houseHoldMembers" : 1,
+      "adults" : 1,
+      "children" : 0,
+      "personList" : [ {
+        "firstName" : "Eric",
+        "lastName" : "Cadigan",
+        "birthdate" : "1945-08-06",
+        "phone" : "841-874-7458",
+        "email" : "gramps@email.com",
+        "medications" : [ "tradoxidine:400mg" ],
+        "allergies" : [ ]
+      } ]
+    } ]
+  } ]
+}

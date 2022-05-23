@@ -1,9 +1,6 @@
 package com.SafetyNetAlert.SafetyNet.jsonfiles;
 
-import com.SafetyNetAlert.SafetyNet.model.DataJson;
-import com.SafetyNetAlert.SafetyNet.model.FireStation;
-import com.SafetyNetAlert.SafetyNet.model.MedicalRecord;
-import com.SafetyNetAlert.SafetyNet.model.Person;
+import com.SafetyNetAlert.SafetyNet.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;

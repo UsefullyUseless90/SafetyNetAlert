@@ -1,6 +1,7 @@
 package com.SafetyNetAlert.SafetyNet.service;
 
 import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
+import com.SafetyNetAlert.SafetyNet.jsonfiles.V2JsonFileService;
 import com.SafetyNetAlert.SafetyNet.model.FireStation;
 import com.SafetyNetAlert.SafetyNet.model.Person;
 import com.SafetyNetAlert.SafetyNet.model.V2FireStationList;
@@ -22,7 +23,7 @@ public class FireStationServiceImpl implements FireStationService {
 
     @Autowired
     private JsonFileService jsonFileService;
-
+    private V2JsonFileService v2JsonFileService;
     /**
      * @param station
      * @return an updated list of all the Stations
@@ -50,6 +51,8 @@ public class FireStationServiceImpl implements FireStationService {
 
         //temporaire à supprimer!
         V2FireStationList v2FireStationList = new V2FireStationList(jsonFileService.jsonReaderService());
+        V2JsonFileService v2JsonFileService = new V2JsonFileService();
+        v2JsonFileService.jsonCreateService(v2FireStationList);
         //
         return culvertStationList;
     }
@@ -100,19 +103,5 @@ public class FireStationServiceImpl implements FireStationService {
         return stationList;
     }
 
-    private FireStation StationFinder(FireStation station) throws IOException {
-
-        List<FireStation> stationList = this.getAllStation();// create a list and add to it the stations
-
-        //Instantiate the loop that'll look in the list for any match
-        for (int i = 0; i < stationList.size(); i++) {
-            FireStation f = stationList.get(i);
-            if (f.getStation().equals(station.getStation())) {
-                f.setAddress(station.getAddress());
-                break;
-            }
-        }
-        return station;// non définitif
-    }
 }
 

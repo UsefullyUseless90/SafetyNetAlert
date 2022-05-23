@@ -42,11 +42,9 @@ public class V2FireStationList {
         for (MedicalRecord medicalRecord : dataJson.getMedicalrecords()) {
             for (int i = 0; i < stations.size(); i++) {
                 for (int k = 0; k < this.stations.get(i).getFamilyList().get(j).getPersonList().size(); k++) {
-                    boolean found = false;
                     if (this.stations.get(i).getFamilyList().get(j).getPersonList().get(k).getFirstName().equals(medicalRecord.getFirstName())
                             && this.stations.get(i).getFamilyList().get(j).getPersonList().get(k).getLastName().equals(medicalRecord.getLastName())) {
                         this.stations.get(i).getFamilyList().get(j).getPersonList().get(k).initMedicalRecords(medicalRecord);
-                        found = true;
                         break;
                     }
                 }
