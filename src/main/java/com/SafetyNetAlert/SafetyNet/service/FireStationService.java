@@ -1,6 +1,7 @@
 package com.SafetyNetAlert.SafetyNet.service;
 
 import com.SafetyNetAlert.SafetyNet.model.FireStation;
+import com.SafetyNetAlert.SafetyNet.model.StationNumber;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -15,5 +16,7 @@ public interface FireStationService {
     List<FireStation> updateStation(FireStation station) throws IOException, JSONException;
 
     List<FireStation> deleteStation(FireStation station) throws IOException;
+
+    List<StationNumber> filteredData(String stationNumber) throws IOException;
 
 }

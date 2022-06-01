@@ -1,17 +1,17 @@
 package com.SafetyNetAlert.SafetyNet.service;
 
 import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
-import com.SafetyNetAlert.SafetyNet.jsonfiles.V2JsonFileService;
 import com.SafetyNetAlert.SafetyNet.model.FireStation;
-import com.SafetyNetAlert.SafetyNet.model.Person;
+import com.SafetyNetAlert.SafetyNet.model.StationNumber;
+import com.SafetyNetAlert.SafetyNet.model.V2FireStation;
 import com.SafetyNetAlert.SafetyNet.model.V2FireStationList;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,11 +19,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class FireStationServiceImpl implements FireStationService {
 
-    File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
-
     @Autowired
     private JsonFileService jsonFileService;
-    private V2JsonFileService v2JsonFileService;
+
     /**
      * @param station
      * @return an updated list of all the Stations
@@ -48,12 +46,6 @@ public class FireStationServiceImpl implements FireStationService {
      */
     public List<FireStation> getAllStation() throws IOException {
         List<FireStation> culvertStationList = jsonFileService.jsonReaderService().getFirestations();
-
-        //temporaire à supprimer!
-        V2FireStationList v2FireStationList = new V2FireStationList(jsonFileService.jsonReaderService());
-        V2JsonFileService v2JsonFileService = new V2JsonFileService();
-        v2JsonFileService.jsonCreateService(v2FireStationList);
-        //
         return culvertStationList;
     }
 
@@ -88,12 +80,12 @@ public class FireStationServiceImpl implements FireStationService {
      */
     @Override
     public List<FireStation> deleteStation(FireStation station) throws IOException {
-        List<FireStation> stationList = this.getAllStation();// create a list and add to it the stations
+        List<FireStation> stationList = this.getAllStation(); // create a list and add to it the stations
 
         //Instantiate the loop that'll look in the list for any match
         for (int i = 0; i < stationList.size(); i++) {
             FireStation f = stationList.get(i);
-            if (f.getStation().equals(station.getStation()) && f.getAddress().equals(station.getAddress())) {// In case of any match the value is deleted
+            if (f.getStation().equals(station.getStation()) && f.getAddress().equals(station.getAddress())) { // In case of any match the value is deleted
                 stationList.remove(i);
                 break;
             }
@@ -103,5 +95,60 @@ public class FireStationServiceImpl implements FireStationService {
         return stationList;
     }
 
-}
+    /**
+     *
+     * @param stationNumber
+     * @return
+     * @throws IOException
+     */
 
+    @Override
+    public List<StationNumber> filteredData(String stationNumber) throws IOException {
+        V2FireStationList v2FireStationList = new V2FireStationList(jsonFileService.jsonReaderService());
+        List<StationNumber> numbers = new ArrayList<>();
+        for (V2FireStation v2FireStation : v2FireStationList.getStations()) {
+            for (int i = 0; i < v2FireStationList.getStations().size(); i++) {
+                if (v2FireStation.getId().equals(stationNumber)) {
+                    StationNumber answerStationNumber = new StationNumber();
+                    answerStationNumber.setPersonList(answerStationNumber.filteredPeople(v2FireStation));
+                    answerStationNumber.setAdults(v2FireStation.getFamilyList().get(0).getAdults());
+                    answerStationNumber.setChildren(v2FireStation.getFamilyList().get(0).getChildren());
+                    numbers.add(answerStationNumber);
+                    break;
+                }
+            }
+        }
+        return numbers;
+
+    }
+
+
+
+    /**
+     * @param station
+     * @return
+     * @throws IOException
+     */
+
+    public List<FireStation> filteredData(FireStation station) throws IOException {
+
+        List<FireStation> stationList = this.getAllStation();
+        V2FireStationList v2Station = new V2FireStationList(jsonFileService.jsonReaderService());
+        List<V2FireStation> v2StationList = new ArrayList<>();
+        v2StationList = v2Station.getStations();
+        for (int i = 0; i < v2StationList.size(); i++) {
+            for (int j = 0; j < stationList.size(); j++) {
+                if (v2StationList.get(i).getId().contains(stationList.get(j).getStation())) {
+                    for (int k = 0; k < v2StationList.get(i).getFamilyList().get(0).getPersonList().size(); k++) {
+                        v2StationList.get(i).getFamilyList().get(0).getPersonList().get(k).setLastName(v2StationList.get(i).getFamilyList().get(0).getPersonList().get(k).getLastName());
+                        v2StationList.get(i).getFamilyList().get(0).getPersonList().get(k).setFirstName(v2StationList.get(i).getFamilyList().get(0).getPersonList().get(k).getFirstName());
+                        v2StationList.get(i).getFamilyList().get(0).getPersonList().get(k).setPhone(v2StationList.get(i).getFamilyList().get(0).getPersonList().get(k).getPhone());
+                    }
+                }
+
+            }
+
+        }
+        return stationList;
+    }
+}

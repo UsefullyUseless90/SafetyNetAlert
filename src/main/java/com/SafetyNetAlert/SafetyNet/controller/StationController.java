@@ -14,8 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/firestation")
 public class StationController {
+
     @Autowired
     FireStationService fireStationService;
+
     /**
      * Create / Add new station
      *
@@ -39,7 +41,7 @@ public class StationController {
      * @throws JSONException
      * @throws IOException
      */
-    @GetMapping
+    @RequestMapping(value ="")
     public ResponseEntity<List<FireStation>> getAllStation() throws JSONException, IOException {
         List<FireStation> stationList = fireStationService.getAllStation();
         ResponseEntity<List<FireStation>> result = ResponseEntity.status(HttpStatus.OK).body(stationList);
@@ -75,5 +77,15 @@ public class StationController {
         return ResponseEntity.status(HttpStatus.OK).body("Successfully Deleted!");
     }
 
+    /**
+     *
+     * @param stationNumber
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value ="", params = "stationNumber")
+    public ResponseEntity<?>filteredData(@RequestParam String stationNumber) throws IOException {
+        return ResponseEntity.status(HttpStatus.OK).body(fireStationService.filteredData(stationNumber));
+    }
 
 }
