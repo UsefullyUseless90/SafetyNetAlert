@@ -37,10 +37,10 @@ public class StationNumber {
                     coveragePerson.setFirstName(v2FireStation.getFamilyList().get(0).getPersonList().get(i).getFirstName());
                     coveragePerson.setAddress(v2FireStation.getFamilyList().get(0).getAddress());
                     coveragePerson.setPhoneNumber(v2FireStation.getFamilyList().get(0).getPersonList().get(i).getPhone());
-                    cp.add(coveragePerson);
+                    this.personList.add(coveragePerson);
                 }
             }
-            return cp;
+            return this.personList;
     }
 }
 

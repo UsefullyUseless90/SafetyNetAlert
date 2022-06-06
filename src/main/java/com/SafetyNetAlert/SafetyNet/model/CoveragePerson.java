@@ -9,6 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
+public
 class CoveragePerson {
     private String firstName;
     private String lastName;

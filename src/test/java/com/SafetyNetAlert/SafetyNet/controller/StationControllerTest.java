@@ -1,104 +1,123 @@
 package com.SafetyNetAlert.SafetyNet.controller;
 
-import com.SafetyNetAlert.SafetyNet.model.FireStation;
-import com.SafetyNetAlert.SafetyNet.model.Person;
+import com.SafetyNetAlert.SafetyNet.model.CoveragePerson;
+import com.SafetyNetAlert.SafetyNet.model.StationNumber;
 import com.SafetyNetAlert.SafetyNet.service.FireStationService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(controllers = StationController.class)
 class StationControllerTest {
-    @Mock
+
+    private static final String jsonPost = "{\n" +
+            "      \"address\": \"29 14th St\",\n" +
+            "      \"station\": \"2\"\n" +
+            "    }";
+    private static final String jsonPut ="{\n" +
+            "  \"id\": 60,\n" +
+            "  \"address\": \"29 14th St\",\n" +
+            "  \"station\": \"2\"\n" +
+            "}";
+
+    @Autowired
+    private MockMvc mockMvc;
+    @MockBean
     FireStationService fireStationService;
     @InjectMocks
     StationController stationController;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
-
+@Test
+public void testGetAllStations() throws Exception {
+    mockMvc.perform(get("/firestation")).andExpect(status().isOk());
+}
+@Test
+public void testCreateStation() throws Exception {
+    final ResultActions result = mockMvc.perform(post("/firestation")
+            .content(jsonPost)
+            .contentType(MediaType.APPLICATION_JSON));
+    result.andExpect(status().isCreated())
+            .andExpect(MockMvcResultMatchers.content()
+                    .contentType(MediaType.APPLICATION_JSON));
+}
+@Test
+public void testUpdateFireStation() throws Exception {
+    mockMvc.perform(
+            post("/firestation")
+                    .content(jsonPost)
+                    .contentType(MediaType.APPLICATION_JSON));
+    final ResultActions result = mockMvc.perform(put("/firestation")
+                    .content(jsonPut)
+                    .contentType(MediaType.APPLICATION_JSON));
+    result.andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content()
+            .contentType(MediaType.APPLICATION_JSON));
+}
     @Test
-    void testCreateStation() throws Exception {
-        // when(this.personService.getAllPerson()).thenReturn(new ArrayList<>());
+    public void testDeleteFireStation() throws Exception {
+        mockMvc.perform(post("/firestation")
+                        .content(jsonPost)
+                        .contentType(MediaType.APPLICATION_JSON));
+        final ResultActions result = mockMvc.perform(delete("/firestation")
+                        .content(jsonPost)
+                .contentType(MediaType.APPLICATION_JSON));
+        result.andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
 
-        FireStation station = new FireStation();
-        station.setAddress("42 Main St");
-        station.setStation("2");
-        String content = (new ObjectMapper()).writeValueAsString(station);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content);
-        MockMvcBuilders.standaloneSetup(this.stationController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
-
-
     @Test
-    void testGetAllStation() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation");
-        MockMvcBuilders.standaloneSetup(this.stationController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("[]"));
-    }
+    public void testGetFireStations() throws Exception {
+        final ResultActions result = mockMvc.perform(get("/firestation")
+                                            .param("stationNumber", "3"));
 
-    @Test
-    void testUpdateStation() throws Exception {
-        FireStation station = new FireStation();
-        station.setAddress("42 Main St");
-        station.setStation("2");
-        String content = (new ObjectMapper()).writeValueAsString(station);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content);
-        MockMvcBuilders.standaloneSetup(this.stationController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("[]"));
-    }
+        final MockHttpServletResponse response =
+                result.andExpect(MockMvcResultMatchers.status().isOk())
+                        .andReturn()
+                        .getResponse();
 
-    @Test
-    void testDeleteStation() throws Exception {
-        FireStation station = new FireStation();
-        station.setAddress("42 Main St");
-        station.setStation("2");
-        String content = (new ObjectMapper()).writeValueAsString(station);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content);
-        MockMvcBuilders.standaloneSetup(this.stationController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("[]"));
-    }
+        StationNumber stationNumber = new StationNumber();
+
+        CoveragePerson coveragePerson1 = new CoveragePerson();
+        coveragePerson1.setFirstName("Andrew");
+        coveragePerson1.setLastName("Cooper");
+        coveragePerson1.setAddress("77th 2nd Street");
+        coveragePerson1.setPhoneNumber("555-689-328");
+
+        CoveragePerson coveragePerson2 = new CoveragePerson();
+        coveragePerson2.setFirstName("Xander");
+        coveragePerson2.setLastName("Cooper");
+        coveragePerson2.setAddress("77th 2nd Street");
+        coveragePerson2.setPhoneNumber("555-689-328");
+
+        List<CoveragePerson> coveragePersonList = new ArrayList<>();
+        coveragePersonList.add(coveragePerson1);
+        coveragePersonList.add(coveragePerson2);
+
+        stationNumber.setPersonList(coveragePersonList);
+        stationNumber.setAdults(1);
+        stationNumber.setChildren(1);
+
+        Assertions.assertTrue(stationNumber.getAdults() > 0);
+        Assertions.assertTrue(stationNumber.getChildren() > 0);
+        Assertions.assertTrue(stationNumber.getPersonList().size() > 0);
+
 }
 
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme
+}
