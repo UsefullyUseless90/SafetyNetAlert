@@ -19,28 +19,18 @@ public class StationNumber {
     private int children;
 
     public StationNumber(V2FireStation v2FireStation) {
-
         this.personList = new ArrayList<>();
-        this.adults = v2FireStation.getFamilyList().get(0).getAdults();
-        this.children = v2FireStation.getFamilyList().get(0).getChildren();
-    }
-        public List<CoveragePerson> filteredPeople(V2FireStation v2FireStation){
-            List<V2Person> coveredPeople = new ArrayList<>();
-            List<V2Family> coveredFamilies = new ArrayList<>();
-            coveredPeople = v2FireStation.getFamilyList().get(0).getPersonList();
-            coveredFamilies = v2FireStation.getFamilyList();
-            List<CoveragePerson> cp = new ArrayList<>();
-            for (int i = 0; i < coveredPeople.size(); i++) {
-                if (v2FireStation.getFamilyList().get(0).getAddress().equals(coveredFamilies.get(0).getAddress())) {
-                    CoveragePerson coveragePerson = new CoveragePerson();
-                    coveragePerson.setLastName(v2FireStation.getFamilyList().get(0).getPersonList().get(i).getLastName());
-                    coveragePerson.setFirstName(v2FireStation.getFamilyList().get(0).getPersonList().get(i).getFirstName());
-                    coveragePerson.setAddress(v2FireStation.getFamilyList().get(0).getAddress());
-                    coveragePerson.setPhoneNumber(v2FireStation.getFamilyList().get(0).getPersonList().get(i).getPhone());
-                    this.personList.add(coveragePerson);
-                }
+        this.adults = 0;
+        this.children = 0;
+
+        for(V2Family v2Family : v2FireStation.getFamilyList()) {
+            for(V2Person v2Person : v2Family.getPersonList()) {
+                CoveragePerson coveragePerson = new CoveragePerson(v2Person, v2Family.getAddress());
+                this.getPersonList().add(coveragePerson);
             }
-            return this.personList;
+            this.setAdults(v2Family.getAdults() + this.getAdults());
+            this.setChildren(v2Family.getChildren() + this.getChildren());
+        }
     }
 }
 

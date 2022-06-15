@@ -16,13 +16,10 @@ class CoveragePerson {
     private String address;
     private String phoneNumber;
 
-    public CoveragePerson(V2Family v2) {
-        for (int i = 0; i < v2.getPersonList().size(); i++) {
-            this.firstName = v2.getPersonList().get(i).getFirstName();
-            this.lastName = v2.getPersonList().get(i).getLastName();
-            this.address = v2.getAddress();
-            this.phoneNumber = v2.getPersonList().get(i).getPhone();
-        }
-
+    public CoveragePerson(V2Person v2Person, String address) {
+            this.firstName = v2Person.getFirstName();
+            this.lastName = v2Person.getLastName();
+            this.phoneNumber = v2Person.getPhone();
+            this.address = address;
     }
 }

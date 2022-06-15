@@ -21,4 +21,16 @@ public class V2FireStation {
         this.getFamilyList().add(new V2Family(firestation.getAddress()));
     }
 
+    public void addNewFamily(String address) {
+        // TODO vérifier que l'adresse n'est pas en double
+        boolean found = false;
+        for (V2Family v2 : getFamilyList()) {
+            if (v2.getAddress().contains(address)) {
+                found = true;
+            }
+        }
+        if (found == false) {
+            this.getFamilyList().add(new V2Family(address));
+        }
+    }
 }

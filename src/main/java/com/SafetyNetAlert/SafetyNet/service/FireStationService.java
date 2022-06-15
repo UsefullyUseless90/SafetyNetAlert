@@ -17,6 +17,6 @@ public interface FireStationService {
 
     List<FireStation> deleteStation(FireStation station) throws IOException;
 
-    List<StationNumber> filteredData(String stationNumber) throws IOException;
+    StationNumber filteredData(String stationNumber) throws IOException;
 
 }

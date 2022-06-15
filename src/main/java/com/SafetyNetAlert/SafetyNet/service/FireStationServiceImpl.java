@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -103,20 +102,16 @@ public class FireStationServiceImpl implements FireStationService {
      */
 
     @Override
-    public List<StationNumber> filteredData(String stationNumber) throws IOException {
+    public StationNumber filteredData(String stationNumber) throws IOException {
+        StationNumber stationNumberResponse = new StationNumber();
         V2FireStationList v2FireStationList = new V2FireStationList(jsonFileService.jsonReaderService());
-        List<StationNumber> numbers = new ArrayList<>();
         for (V2FireStation v2FireStation : v2FireStationList.getStations()) {
             if (v2FireStation.getId().equals(stationNumber)) {
-                StationNumber answerStationNumber = new StationNumber(v2FireStation);
-                answerStationNumber.filteredPeople(v2FireStation);
-                answerStationNumber.getPersonList();
-                answerStationNumber.getAdults();
-                answerStationNumber.getChildren();
-                numbers.add(answerStationNumber);
+                // v2FireStation couvre l'ensemble des familles dans son objet
+                stationNumberResponse = new StationNumber(v2FireStation);
             }
         }
-        return numbers;
+        return stationNumberResponse;
 
     }
 }
