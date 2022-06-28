@@ -43,21 +43,17 @@ public class V2Family {
 
     public void calculateAge() {
 
-
-                for(V2Person p2 : getPersonList()){
-                    for (int i = 0; i < personList.size(); i++) {
-                        if (getPersonList().get(i).getLastName().equals(p2.getLastName())
+        for (V2Person p2 : getPersonList()) {
+            for (int i = 0; i < personList.size(); i++) {
+                if (getPersonList().get(i).getLastName().equals(p2.getLastName())
                         && getPersonList().get(i).getFirstName().equals(p2.getFirstName())) {
-                        LocalDate birthDate = this.getPersonList().get(i).getBirthdate();
-                        int difference = Period.between(birthDate, LocalDate.now()).getYears();
-                        if (difference >= 18) {
+                    if (getPersonList().get(i).getAge() >= 18) {
                         this.adults++;
-                    }else{
+                    } else {
                         this.children++;
                     }
                 }
             }
-
         }
     }
 }

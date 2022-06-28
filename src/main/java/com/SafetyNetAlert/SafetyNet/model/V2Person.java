@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.ResolverStyle;
@@ -24,6 +25,7 @@ public class V2Person {
     private String firstName;
     private String lastName;
     private LocalDate birthdate;
+    private int age;
     private String phone;
     private String email;
     private List<String> medications;
@@ -36,6 +38,7 @@ public class V2Person {
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
         this.birthdate = null;
+        this.age = -1;
         this.phone = p.getPhone();
         this.email = p.getEmail();
         this.medications = new ArrayList<>();
@@ -55,6 +58,10 @@ public class V2Person {
         LocalDate localDate = LocalDate.parse(medicalRecord.getBirthdate(), formatter);
         this.setBirthdate(localDate);
 
+        LocalDate birthDate = this.getBirthdate();
+        this.age = Period.between(birthDate, LocalDate.now()).getYears();
 
     }
+
+
 }
