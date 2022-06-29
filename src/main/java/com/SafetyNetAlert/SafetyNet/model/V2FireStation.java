@@ -22,7 +22,7 @@ public class V2FireStation {
     }
 
     public void addNewFamily(String address) {
-        // TODO vérifier que l'adresse n'est pas en double
+
         boolean found = false;
         for (V2Family v2 : getFamilyList()) {
             if (v2.getAddress().contains(address)) {

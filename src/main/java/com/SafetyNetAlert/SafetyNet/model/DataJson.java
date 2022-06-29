@@ -10,7 +10,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class DataJson {
+
     private List<Person> persons;
     private List<FireStation> firestations;
     private List<MedicalRecord> medicalrecords;
+
 }

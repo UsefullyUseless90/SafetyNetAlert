@@ -3,18 +3,15 @@ package com.SafetyNetAlert.SafetyNet.service;
 import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
 import com.SafetyNetAlert.SafetyNet.model.MedicalRecord;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class MedicalRecordServiceImpl implements MedicalRecordService {
-    File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
 
     @Autowired
     private JsonFileService jsonFileService;
@@ -35,7 +32,8 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
         record.setAllergies(record.getAllergies());
         recordList.add(record);
 
-        jsonFileService.updateRecords(recordList); // Writing in JSON file
+        // Writing in JSON file
+        jsonFileService.updateRecords(recordList);
 
         return this.getAllRecord();
     }
@@ -45,9 +43,10 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
      * @return list of all stations
      * @throws IOException
      */
-    public List<MedicalRecord> getAllRecord() throws IOException {
 
-        return jsonFileService.jsonReaderService().getMedicalrecords();// // Reading the JSON file
+    public List<MedicalRecord> getAllRecord() throws IOException {
+        // Reading the JSON file.
+        return jsonFileService.jsonReaderService().getMedicalrecords();
     }
 
     /**
@@ -59,17 +58,20 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     @Override
     public List<MedicalRecord> updateRecord(MedicalRecord record) throws IOException {
 
-        List<MedicalRecord> recordList = this.getAllRecord();// create the list of all the persons
+        // Creates the list of all the persons.
+        List<MedicalRecord> recordList = this.getAllRecord();
 
-        //Instantiate the loop that'll look in the list for any match
+        //Instantiates the loop that'll look in the list for any match
         for (int i = 0; i < recordList.size(); i++) {
             MedicalRecord mr = recordList.get(i);
-            if (mr.getLastName().equals(record.getLastName()) && mr.getFirstName().equals(record.getFirstName())) { // In case of any match the value is replaced by a new one
+            // In case of any match the value is replaced by a new one.
+            if (mr.getLastName().equals(record.getLastName()) && mr.getFirstName().equals(record.getFirstName())) {
                 recordList.set(i, record);
                 break;
             }
         }
-        this.jsonFileService.updateRecords(recordList); // Writing in JSON file
+        // Writing in JSON file
+        this.jsonFileService.updateRecords(recordList);
 
         return recordList;
     }
@@ -82,16 +84,20 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
      */
     @Override
     public List<MedicalRecord> deleteRecord(MedicalRecord record) throws IOException {
-        List<MedicalRecord> recordList = this.getAllRecord();// create a list and add to it the persons
+
+        // Creates a list and add to it the persons
+        List<MedicalRecord> recordList = this.getAllRecord();
 
         for (int i = 0; i < recordList.size(); i++) {
             MedicalRecord mr = recordList.get(i);
-            if (mr.getLastName().equals(record.getLastName()) && mr.getFirstName().equals(record.getFirstName())) { // In case of any match the value is deleted
+            // In case of any match the value is deleted
+            if (mr.getLastName().equals(record.getLastName()) && mr.getFirstName().equals(record.getFirstName())) {
                 recordList.remove(i);
                 break;
             }
         }
-        this.jsonFileService.updateRecords(recordList); // Writing in JSON file
+        // Writing in JSON file
+        this.jsonFileService.updateRecords(recordList);
 
         return recordList;
     }

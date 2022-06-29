@@ -1,6 +1,5 @@
 package com.SafetyNetAlert.SafetyNet.service;
 
-import com.SafetyNetAlert.SafetyNet.model.FireStation;
 import com.SafetyNetAlert.SafetyNet.model.Person;
 import org.json.JSONException;
 
@@ -17,7 +16,5 @@ public interface PersonService {
     List<Person> updatePerson(Person person) throws IOException, JSONException;
 
     List<Person> deletePerson(Person person) throws IOException;
-
-    List<Person> matchingAddress(Person person, FireStation fireStation) throws IOException;
 
 }

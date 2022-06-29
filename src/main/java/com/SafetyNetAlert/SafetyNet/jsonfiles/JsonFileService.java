@@ -25,6 +25,7 @@ public class JsonFileService {
      * @return DataJson, classe JAVA représentant l'intégralité du fichier JSON
      * @throws IOException
      */
+
     public DataJson jsonReaderService() throws IOException {
         List<String> allLines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
         StringBuilder myLine = new StringBuilder();
@@ -43,22 +44,43 @@ public class JsonFileService {
      * @param dataJson
      * @throws IOException
      */
+
     public void jsonWriterService(DataJson dataJson) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(file, dataJson);
     }
 
+    /**
+     *
+     * @param personList
+     * @throws IOException
+     */
+
     public void updatePersons(List<Person> personList) throws IOException {
         DataJson dataJson = this.jsonReaderService();
         dataJson.setPersons(personList);
         this.jsonWriterService(dataJson);
     }
+
+    /**
+     *
+     * @param stationList
+     * @throws IOException
+     */
+
     public void updateStations(List<FireStation> stationList) throws IOException {
         DataJson dataJson = this.jsonReaderService();
         dataJson.setFirestations(stationList);
         this.jsonWriterService(dataJson);
     }
+
+    /**
+     *
+     * @param recordList
+     * @throws IOException
+     */
+
     public void updateRecords(List<MedicalRecord> recordList) throws IOException {
         DataJson dataJson = this.jsonReaderService();
         dataJson.setMedicalrecords(recordList);

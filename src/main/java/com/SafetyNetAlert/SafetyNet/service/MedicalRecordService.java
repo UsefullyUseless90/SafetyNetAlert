@@ -1,7 +1,6 @@
 package com.SafetyNetAlert.SafetyNet.service;
 
 import com.SafetyNetAlert.SafetyNet.model.MedicalRecord;
-import com.SafetyNetAlert.SafetyNet.model.Person;
 import org.json.JSONException;
 
 import java.io.IOException;

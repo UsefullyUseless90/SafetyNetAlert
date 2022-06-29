@@ -22,6 +22,7 @@ public class PersonInfo {
     private List<String> allergies;
 
     public PersonInfo(V2Person v2Person, V2Family v2Family) {
+
         this.firstName = v2Person.getFirstName();
         this.lastName = v2Person.getLastName();
         this.age = v2Person.getAge();
@@ -29,5 +30,7 @@ public class PersonInfo {
         this.email = v2Person.getEmail();
         this.medications = v2Person.getMedications();
         this.allergies = v2Person.getAllergies();
+
     }
+
 }

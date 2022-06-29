@@ -1,22 +1,19 @@
 package com.SafetyNetAlert.SafetyNet.service;
 
 import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
-import com.SafetyNetAlert.SafetyNet.model.*;
+import com.SafetyNetAlert.SafetyNet.model.Person;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
 
-    File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
     @Autowired
     private JsonFileService jsonFileService;
 
@@ -27,8 +24,9 @@ public class PersonServiceImpl implements PersonService {
      * @throws IOException
      * @throws JSONException
      */
+
     @Override
-    public List<Person> createPerson(Person person) throws IOException, JSONException {
+    public List<Person> createPerson(Person person) throws IOException{
         List<Person> personList = this.getAllPerson();
         person.setLastName(person.getLastName());
         person.setFirstName(person.getFirstName());
@@ -44,64 +42,70 @@ public class PersonServiceImpl implements PersonService {
         return this.getAllPerson();
     }
 
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
+
     @Override
     public List<Person> getAllPerson() throws IOException {
         List<Person> culvertPeopleList = jsonFileService.jsonReaderService().getPersons();
         return culvertPeopleList;
     }
 
+    /**
+     *
+     * @param person
+     * @return
+     * @throws IOException
+     */
+
     @Override
-    public List<Person> updatePerson(Person person) throws IOException, JSONException {
-        List<Person> personList = this.getAllPerson();// create a list and add to it the persons
+    public List<Person> updatePerson(Person person) throws IOException{
+        // Creates a list and add to it the persons
+        List<Person> personList = this.getAllPerson();
 
         for (int i = 0; i < personList.size(); i++) {
             Person p = personList.get(i);
-            if (p.getLastName().equals(person.getLastName()) && p.getFirstName().equals(person.getFirstName())) {// In case of any match the value is replaced by a new one
+            // In case of any match the value is replaced by a new one
+            if (p.getLastName().equals(person.getLastName()) && p.getFirstName().equals(person.getFirstName())) {
                 personList.set(i, person);
                 break;
             }
         }
 
-        // Ecriture dnas JSON
+        // Writing in json file.
         this.jsonFileService.updatePersons(personList);
 
         return personList;
     }
 
+    /**
+     *
+     * @param person
+     * @return
+     * @throws IOException
+     */
+
     @Override
     public List<Person> deletePerson(Person person) throws IOException {
-        List<Person> personList = this.getAllPerson();// create a list and add to it the persons
+        // Creates a list and add to it the persons.
+        List<Person> personList = this.getAllPerson();
 
         for (int i = 0; i < personList.size(); i++) {
             Person p = personList.get(i);
-            if (p.getLastName().equals(person.getLastName()) && p.getFirstName().equals(person.getFirstName())) {// In case of any match the value is deleted
+            // In case of any match the value is deleted.
+            if (p.getLastName().equals(person.getLastName()) && p.getFirstName().equals(person.getFirstName())) {
                 personList.remove(i);
                 break;
             }
         }
 
-        // Ecriture dnas JSON
+        // Writing in json file.
         this.jsonFileService.updatePersons(personList);
 
         return personList;
     }
 
-    @Override
-        public List<Person> matchingAddress(Person person, FireStation fireStation) throws IOException {
-            List<Person> personList = this.getAllPerson();
-            List<FireStation> stationList = jsonFileService.jsonReaderService().getFirestations();
-            List<Person> matchingList = new ArrayList<>();
-
-            for (int i = 0; i < personList.size(); i++) {
-                Person p = personList.get(i);
-                for (int f = 0; f < stationList.size(); f++) {
-                    FireStation fs = stationList.get(f);
-                    if (p.getAddress().equals(person.getAddress()) && fs.getAddress().equals(fireStation.getAddress())) {// In case of any match the value is deleted
-                        matchingList.add(p);
-                        break;
-                    }
-                }
-            }
-            return personList;
-    }
 }

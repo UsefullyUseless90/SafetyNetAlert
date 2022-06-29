@@ -28,13 +28,13 @@ public class PersonController {
      * @throws IOException
      * @throws JSONException
      */
+
     @PostMapping
     public ResponseEntity<Person> createPerson(@RequestBody Person person) throws IOException, JSONException {
         personService.createPerson(person);
         ResponseEntity<Person> creation = ResponseEntity.status(HttpStatus.CREATED).body(person);
         return creation;
     }
-
 
     /**
      * Read / Get all Persons
@@ -43,12 +43,12 @@ public class PersonController {
      * @throws JSONException
      * @throws IOException
      */
+
     @GetMapping
     public ResponseEntity<List<Person>> getAllPerson() throws JSONException, IOException {
         List<Person> personList = personService.getAllPerson();
         ResponseEntity<List<Person>> result = ResponseEntity.status(HttpStatus.OK).body(personList);
         return result;
-
     }
 
     /**
@@ -59,12 +59,12 @@ public class PersonController {
      * @throws JSONException
      * @return
      */
+
     @PutMapping
     public ResponseEntity<?> updatePerson(@RequestBody Person person) throws IOException, JSONException {
         List<Person> updatedPerson = personService.updatePerson(person);
         return new ResponseEntity<>(updatedPerson, HttpStatus.OK);
     }
-
 
     /**
      * Delete a person from the record
@@ -72,13 +72,13 @@ public class PersonController {
      * @return
      * @throws IOException
      */
-        @DeleteMapping
-        public ResponseEntity<String> deletePerson(@RequestBody Person person) throws IOException {
-            personService.deletePerson(person);
 
-            return ResponseEntity.status(HttpStatus.OK).body("Successfully Deleted!");
-        }
+    @DeleteMapping
+    public ResponseEntity<String> deletePerson(@RequestBody Person person) throws IOException {
+        personService.deletePerson(person);
 
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully Deleted!");
+    }
 
 }
 

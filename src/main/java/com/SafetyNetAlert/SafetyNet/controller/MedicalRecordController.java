@@ -17,6 +17,7 @@ public class MedicalRecordController {
 
     @Autowired
     MedicalRecordService medicalRecordService;
+
     /**
      * Create / Add new record
      *
@@ -25,6 +26,7 @@ public class MedicalRecordController {
      * @throws IOException
      * @throws JSONException
      */
+
     @PostMapping
     public ResponseEntity<MedicalRecord> createRecord(@RequestBody MedicalRecord record) throws IOException, JSONException {
         medicalRecordService.createRecord(record);
@@ -40,6 +42,7 @@ public class MedicalRecordController {
      * @throws JSONException
      * @throws IOException
      */
+
     @GetMapping
     public ResponseEntity<List<MedicalRecord>> getAllRecord() throws JSONException, IOException {
         List<MedicalRecord> recordList = medicalRecordService.getAllRecord();
@@ -56,6 +59,7 @@ public class MedicalRecordController {
      * @throws JSONException
      * @return
      */
+
     @PutMapping
     public ResponseEntity<?> updateRecord(@RequestBody MedicalRecord record) throws IOException, JSONException {
         List<MedicalRecord> updatedRecord = medicalRecordService.updateRecord(record);
@@ -69,6 +73,7 @@ public class MedicalRecordController {
      * @return
      * @throws IOException
      */
+
     @DeleteMapping
     public ResponseEntity<String> deleteRecord(@RequestBody MedicalRecord record) throws IOException {
         medicalRecordService.deleteRecord(record);

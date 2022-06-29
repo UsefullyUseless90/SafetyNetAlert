@@ -46,9 +46,6 @@ public class V2Person {
 
     }
 
-    /**
-     *
-     */
 
     public void initMedicalRecords(MedicalRecord medicalRecord) throws IOException {
         this.setMedications(medicalRecord.getMedications());

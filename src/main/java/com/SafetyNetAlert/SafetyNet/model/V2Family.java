@@ -4,9 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +12,7 @@ import java.util.List;
 @ToString
 public class V2Family {
 
-    private String address;// firestation that covers
+    private String address;
     private int houseHoldMembers;
     private int adults;
     private int children;
@@ -27,15 +24,15 @@ public class V2Family {
     public V2Family(String address) {
         this.address = address;
         this.houseHoldMembers = 0;
-        this.adults = 0;//needs method to be calculated
-        this.children = 0;//needs method to be calculated
+        this.adults = 0;
+        this.children = 0;
         this.personList = new ArrayList<V2Person>();
     }
 
     /**
      * @param p
      */
-    public void addPerson(Person p) throws IOException {
+    public void addPerson(Person p){
         this.getPersonList().add(new V2Person(p));
         this.houseHoldMembers++;
 

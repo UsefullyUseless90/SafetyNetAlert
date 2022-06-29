@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Person {
+
         private String firstName;
         private String lastName;
         private String phone;
@@ -15,4 +16,5 @@ public class Person {
         private String address;
         private String city;
         private String email;
+
 }

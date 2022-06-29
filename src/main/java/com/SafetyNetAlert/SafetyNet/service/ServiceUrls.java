@@ -7,15 +7,16 @@ import java.util.List;
 
 public interface ServiceUrls{
 
-List<ChildAlert> childAlert(String address) throws IOException;
+ChildList childAlert(String address) throws IOException;
 
 PhoneNumber phoneNumber(String stationNumber) throws IOException;
 
 List<FireAddress> fireAddress(String address) throws IOException;
 
-FloodStation floodStation(String aListOfStationNumber) throws IOException;
+List<FireAddress> floodStation(List<String> aListOfStationNumber) throws IOException;
 
-PersonInfo personInfo(String firstName, String lastName) throws IOException;
+List<PersonInfo> personInfo(String firstName, String lastName) throws IOException;
 
 List<CommunityEmail> communityEmail(String city) throws IOException;
+
 }

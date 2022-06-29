@@ -19,6 +19,7 @@ public class StationNumber {
     private int children;
 
     public StationNumber(V2FireStation v2FireStation) {
+
         this.personList = new ArrayList<>();
         this.adults = 0;
         this.children = 0;

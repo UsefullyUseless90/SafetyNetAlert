@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class FireAddress {
 
+    private String stationID;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -22,16 +23,16 @@ public class FireAddress {
     private List<String> medications;
     private List<String> allergies;
 
-    public FireAddress(V2Person v2, V2Family v2Family) {
-        this.firstName = v2.getFirstName();
-        this.lastName = v2.getLastName();
-        this.phoneNumber = v2.getPhone();
-        this.age = v2.getAge();
+    public FireAddress(V2Person v2Person, V2Family v2Family) {
+
         this.address = v2Family.getAddress();
-        this.medications = v2.getMedications();
-        this.allergies = v2.getAllergies();
-
-
+        this.firstName = v2Person.getFirstName();
+        this.lastName = v2Person.getLastName();
+        this.phoneNumber = v2Person.getPhone();
+        this.age = v2Person.getAge();
+        this.medications = v2Person.getMedications();
+        this.allergies = v2Person.getAllergies();
+        this.stationID=null;
 
     }
 }

@@ -33,7 +33,7 @@ public class V2FamilyList {
                 families.add(v2Family);
             }
         }
-        // a revoir et adapter !
+
         for (MedicalRecord medicalRecord : dataJson.getMedicalrecords()) {
             for (int i = 0; i < families.size(); i++) {
                 for (int j = 0; j < families.get(i).getPersonList().size(); j++) {
@@ -45,6 +45,5 @@ public class V2FamilyList {
                 }
             }
         }
-
     }
 }

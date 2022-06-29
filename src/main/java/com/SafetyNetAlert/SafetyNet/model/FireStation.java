@@ -8,6 +8,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class FireStation {
+
     private String address;
     private String station;
+
 }

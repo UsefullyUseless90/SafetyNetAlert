@@ -2,7 +2,6 @@ package com.SafetyNetAlert.SafetyNet.controller;
 
 import com.SafetyNetAlert.SafetyNet.model.FireStation;
 import com.SafetyNetAlert.SafetyNet.service.FireStationService;
-import com.SafetyNetAlert.SafetyNet.service.ServiceUrls;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +26,7 @@ public class StationController {
      * @throws IOException
      * @throws JSONException
      */
+
     @PostMapping
     public ResponseEntity<FireStation> createStation(@RequestBody FireStation station) throws IOException, JSONException {
         fireStationService.createStation(station);
@@ -42,6 +42,7 @@ public class StationController {
      * @throws JSONException
      * @throws IOException
      */
+
     @RequestMapping(value ="")
     public ResponseEntity<List<FireStation>> getAllStation() throws JSONException, IOException {
         List<FireStation> stationList = fireStationService.getAllStation();
@@ -58,12 +59,12 @@ public class StationController {
      * @throws JSONException
      * @return
      */
+
     @PutMapping
     public ResponseEntity<?> updateStation(@RequestBody FireStation station) throws IOException, JSONException {
         List<FireStation> updatedStation = fireStationService.updateStation(station);
         return new ResponseEntity<>(updatedStation, HttpStatus.OK);
     }
-
 
     /**
      * Delete a station from the record
@@ -71,6 +72,7 @@ public class StationController {
      * @return
      * @throws IOException
      */
+
     @DeleteMapping
     public ResponseEntity<String> deleteStation(@RequestBody FireStation station) throws IOException {
         fireStationService.deleteStation(station);
@@ -84,6 +86,7 @@ public class StationController {
      * @return
      * @throws IOException
      */
+
     @RequestMapping(value ="", params = "stationNumber")
     public ResponseEntity<?>filteredData(@RequestParam String stationNumber) throws IOException {
         return ResponseEntity.status(HttpStatus.OK).body(fireStationService.filteredData(stationNumber));

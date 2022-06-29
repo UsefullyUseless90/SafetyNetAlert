@@ -25,18 +25,15 @@ public class V2FireStationList {
         this.setStations(new ArrayList<>());
         // Extracting station's List
         for (FireStation f : dataJson.getFirestations()) {
-            boolean found = false;// gestion doublons station (748 Townings Dr).
-            boolean match = false;// gestion doublons station / adresse (112 Steppes Pl (St 3, St4)) .
-            for (V2FireStation v2 : stations) { // Vérifie que dans la liste
-                if (v2.getId().equals(f.getStation())) { // que la station ajoutée n'existe pas
-                    v2.addNewFamily(f.getAddress());// si elle existe on lui ajoute la famille
-                    found = true;// **là elle existe
+            boolean found = false;
+            for (V2FireStation v2 : stations) {
+                if (v2.getId().equals(f.getStation())) {
+                    v2.addNewFamily(f.getAddress());
+                    found = true;
                 }
             }
-            // il faut maintenant vérifier que la station qui va être
-            // créée ne gère pas la même adresse qu'une autre station.
             if (found == false) {
-                stations.add(new V2FireStation(f));// ** là non, on ajoute alors la station.
+                stations.add(new V2FireStation(f));
             }
         }
 
@@ -53,7 +50,6 @@ public class V2FireStationList {
                 }
             }
         }
-            //Initialiser les medicals records
 
         for (MedicalRecord medicalRecord : dataJson.getMedicalrecords()) {
                 for (int i = 0; i < stations.size(); i++) {

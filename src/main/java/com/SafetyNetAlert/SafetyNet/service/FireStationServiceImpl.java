@@ -20,7 +20,6 @@ public class FireStationServiceImpl implements FireStationService {
 
     @Autowired
     private JsonFileService jsonFileService;
-    private StationNumber number;
 
     /**
      * @param station
@@ -28,6 +27,7 @@ public class FireStationServiceImpl implements FireStationService {
      * @throws IOException
      * @throws JSONException
      */
+
     @Override
     public List<FireStation> createStation(FireStation station) throws IOException, JSONException {
         List<FireStation> stationList = this.getAllStation();
@@ -35,7 +35,8 @@ public class FireStationServiceImpl implements FireStationService {
         station.setAddress(station.getAddress());
         stationList.add(station);
 
-        jsonFileService.updateStations(stationList);// Writing in JSON file
+        // Writing in JSON file
+        jsonFileService.updateStations(stationList);
 
         return this.getAllStation();
     }
@@ -44,6 +45,7 @@ public class FireStationServiceImpl implements FireStationService {
      * @return list of all stations
      * @throws IOException
      */
+
     public List<FireStation> getAllStation() throws IOException {
         List<FireStation> culvertStationList = jsonFileService.jsonReaderService().getFirestations();
         return culvertStationList;
@@ -55,20 +57,24 @@ public class FireStationServiceImpl implements FireStationService {
      * @throws IOException
      * @throws JSONException
      */
-    @Override
-    public List<FireStation> updateStation(FireStation station) throws IOException, JSONException {
 
-        List<FireStation> stationList = this.getAllStation();// create a list and add to it the persons
+    @Override
+    public List<FireStation> updateStation(FireStation station) throws IOException {
+
+        // create a list and add to it the persons
+        List<FireStation> stationList = this.getAllStation();
 
         //Instantiate the loop that'll look in the list for any match
         for (int i = 0; i < stationList.size(); i++) {
             FireStation f = stationList.get(i);
-            if (Objects.equals(f.getStation(), station.getStation()) && f.getAddress().equals(station.getAddress())) { // In case of any match the value is replaced by a new one
+            // In case of any match the value is replaced by a new one.
+            if (f.getStation().equals(station.getStation()) && f.getAddress().equals(station.getAddress())) {
                 stationList.set(i, station);
                 break;
             }
         }
-        this.jsonFileService.updateStations(stationList); // Writing in JSON file
+        // Writing in JSON file
+        this.jsonFileService.updateStations(stationList);
 
         return stationList;
     }
@@ -90,7 +96,8 @@ public class FireStationServiceImpl implements FireStationService {
                 break;
             }
         }
-        this.jsonFileService.updateStations(stationList); // Writing in JSON file
+        // Writing in JSON file
+        this.jsonFileService.updateStations(stationList);
 
         return stationList;
     }
@@ -107,7 +114,6 @@ public class FireStationServiceImpl implements FireStationService {
         V2FireStationList v2FireStationList = new V2FireStationList(jsonFileService.jsonReaderService());
         for (V2FireStation v2FireStation : v2FireStationList.getStations()) {
             if (v2FireStation.getId().equals(stationNumber)) {
-                // v2FireStation couvre l'ensemble des familles dans son objet
                 stationNumberResponse = new StationNumber(v2FireStation);
             }
         }
