@@ -3,10 +3,11 @@ package com.SafetyNetAlert.SafetyNet.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.java.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Log
 @Getter
 @Setter
 @NoArgsConstructor

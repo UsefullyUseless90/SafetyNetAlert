@@ -1,47 +1,46 @@
 package com.SafetyNetAlert.SafetyNet.model;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
 class V2FamilyTest {
-    /**
-     * Method under test: default or parameterless constructor of {@link V2Family}
-     */
+
+    V2Family v2 = new V2Family("42 Main St");
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+
+        List<V2Person> v2People  = new ArrayList<>();
+        v2.setPersonList(v2People);
+        v2.setChildren(2);
+        v2.setAdults(2);
+        v2.setHouseHoldMembers(4);
+
+
+
+    }
+
     @Test
     void testConstructor() {
         V2Family actualV2Family = new V2Family("42 Main St");
         assertEquals("42 Main St", actualV2Family.getAddress());
         assertTrue(actualV2Family.getPersonList().isEmpty());
-        assertEquals(0, actualV2Family.getHouseHoldMembers());
-       // assertEquals(0, actualV2Family.getCounter());
-        assertEquals(0, actualV2Family.getChildren());
-        assertEquals(0, actualV2Family.getAdults());
+        assertEquals(4, v2.getHouseHoldMembers());
+        assertEquals(2, v2.getChildren());
+        assertEquals(2, v2.getAdults());
     }
 
-    /**
-     * Method under test: {@link V2Family#addPerson(Person)}
-     */
     @Test
-    @Disabled("TODO: Complete this test")
-    void testAddPerson() throws IOException {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException
-        //       at java.time.Period.between(Period.java:387)
-        //       at com.SafetyNetAlert.SafetyNet.model.V2Family.calculateAge(V2Family.java:60)
-        //       at com.SafetyNetAlert.SafetyNet.model.V2Family.addPerson(V2Family.java:52)
-        //   In order to prevent addPerson(Person)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   addPerson(Person).
-        //   See https://diff.blue/R013 to resolve this issue.
+    void testAddPerson(){
 
         V2Family v2Family = new V2Family("42 Main St");
 
@@ -56,79 +55,8 @@ class V2FamilyTest {
         v2Family.addPerson(person);
     }
 
-    /**
-     * Method under test: {@link V2Family#addPerson(Person)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testAddPerson2() throws IOException {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException
-        //       at java.time.Period.between(Period.java:387)
-        //       at com.SafetyNetAlert.SafetyNet.model.V2Family.calculateAge(V2Family.java:60)
-        //       at com.SafetyNetAlert.SafetyNet.model.V2Family.addPerson(V2Family.java:52)
-        //   In order to prevent addPerson(Person)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   addPerson(Person).
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        V2Family v2Family = new V2Family("42 Main St");
-        //v2Family.setCounter(3);
-
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("Jane");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-        v2Family.addPerson(person);
-    }
-
-    /**
-     * Method under test: {@link V2Family#addPerson(Person)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testAddPerson3() throws IOException {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException
-        //       at java.time.Period.between(Period.java:387)
-        //       at com.SafetyNetAlert.SafetyNet.model.V2Family.calculateAge(V2Family.java:60)
-        //       at com.SafetyNetAlert.SafetyNet.model.V2Family.addPerson(V2Family.java:52)
-        //   In order to prevent addPerson(Person)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   addPerson(Person).
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        V2Family v2Family = new V2Family("42 Main St");
-
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("John");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-        v2Family.addPerson(person);
-    }
-
-    /**
-
-     */
     @Test
     void testCalculateAge() {
-        V2Family v2Family = new V2Family("42 Main St");
 
         Person person = new Person();
         person.setAddress("42 Main St");
@@ -138,7 +66,7 @@ class V2FamilyTest {
         person.setLastName("Doe");
         person.setPhone("4105551212");
         person.setZip("21654");
-        v2Family.calculateAge();
+        v2.calculateAge();
         assertEquals("42 Main St", person.getAddress());
         assertEquals("21654", person.getZip());
         assertEquals("4105551212", person.getPhone());
@@ -146,12 +74,11 @@ class V2FamilyTest {
         assertEquals("Jane", person.getFirstName());
         assertEquals("jane.doe@example.org", person.getEmail());
         assertEquals("Oxford", person.getCity());
-        assertEquals("42 Main St", v2Family.getAddress());
-        assertTrue(v2Family.getPersonList().isEmpty());
-        assertEquals(0, v2Family.getHouseHoldMembers());
-        //assertEquals(0, v2Family.getCounter());
-        assertEquals(0, v2Family.getChildren());
-        assertEquals(0, v2Family.getAdults());
+        assertEquals("42 Main St", v2.getAddress());
+        assertTrue(v2.getPersonList().isEmpty());
+        assertEquals(4, v2.getHouseHoldMembers());
+        assertEquals(2, v2.getChildren());
+        assertEquals(2, v2.getAdults());
     }
 }
 

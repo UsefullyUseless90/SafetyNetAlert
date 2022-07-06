@@ -31,7 +31,7 @@ class PersonControllerTest {
 
     @Test
     void testCreatePerson() throws Exception {
-       // when(this.personService.getAllPerson()).thenReturn(new ArrayList<>());
+       when(this.personService.getAllPerson()).thenReturn(new ArrayList<>());
 
         Person person = new Person();
         person.setAddress("42 Main St");
@@ -55,7 +55,7 @@ class PersonControllerTest {
 
     @Test
     void testGetAllPerson() throws Exception {
-       // when(this.personService.getAllPerson()).thenReturn(new ArrayList<>());
+       when(this.personService.getAllPerson()).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/person");
         MockMvcBuilders.standaloneSetup(this.personController)
                 .build()
@@ -67,7 +67,7 @@ class PersonControllerTest {
 
     @Test
     void testDeletePerson() throws Exception {
-       // when(this.personService.getAllPerson()).thenReturn(new ArrayList<>());
+       when(this.personService.getAllPerson()).thenReturn(new ArrayList<>());
 
         Person person = new Person();
         person.setAddress("42 Main St");
@@ -91,7 +91,7 @@ class PersonControllerTest {
 
     @Test
     void testUpdatePerson() throws Exception {
-      //  when(this.personService.getAllPerson()).thenReturn(new ArrayList<>());
+      when(this.personService.getAllPerson()).thenReturn(new ArrayList<>());
 
         Person person = new Person();
         person.setAddress("42 Main St");

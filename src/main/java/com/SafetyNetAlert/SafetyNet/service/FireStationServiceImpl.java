@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -63,12 +62,11 @@ public class FireStationServiceImpl implements FireStationService {
 
         // create a list and add to it the persons
         List<FireStation> stationList = this.getAllStation();
-
         //Instantiate the loop that'll look in the list for any match
         for (int i = 0; i < stationList.size(); i++) {
             FireStation f = stationList.get(i);
             // In case of any match the value is replaced by a new one.
-            if (f.getStation().equals(station.getStation()) && f.getAddress().equals(station.getAddress())) {
+            if (f.getAddress().equals(station.getAddress())) {
                 stationList.set(i, station);
                 break;
             }

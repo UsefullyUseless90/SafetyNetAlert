@@ -1,25 +1,18 @@
 package com.SafetyNetAlert.SafetyNet.model;
 
-import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.ResolverStyle;
-import java.time.format.SignStyle;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Getter
 @Setter
-@ToString
 public class V2Person {
 
     private String firstName;
@@ -52,7 +45,7 @@ public class V2Person {
         this.setAllergies(medicalRecord.getAllergies());
         //MM/JJ/AAAA
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate localDate = LocalDate.parse(medicalRecord.getBirthdate(), formatter);
+        LocalDate localDate = LocalDate.parse(medicalRecord.getBirthdate());
         this.setBirthdate(localDate);
 
         LocalDate birthDate = this.getBirthdate();

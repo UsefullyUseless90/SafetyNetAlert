@@ -9,16 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class DataJsonTest {
-    /**
-     * Methods under test:
-     *
-     * <ul>
-     *   <li>default or parameterless constructor of {@link DataJson}
-     *   <li>{@link DataJson#setFirestations(List)}
-     *   <li>{@link DataJson#setMedicalrecords(List)}
-     *   <li>{@link DataJson#setPersons(List)}
-     * </ul>
-     */
+
     @Test
     void testConstructor() {
         DataJson actualDataJson = new DataJson();
