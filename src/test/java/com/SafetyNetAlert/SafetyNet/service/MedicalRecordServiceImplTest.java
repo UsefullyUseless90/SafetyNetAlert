@@ -50,13 +50,12 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testCreateRecord2() throws IOException {
+    void testCreateRecordFirestation() throws IOException {
         DataJson dataJson = new DataJson();
         ArrayList<FireStation> fireStationList = new ArrayList<>();
         dataJson.setFirestations(fireStationList);
         ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
         dataJson.setMedicalrecords(medicalRecordList);
-        dataJson.setPersons(new ArrayList<>());
         doNothing().when(this.jsonFileService).updateRecords((List<MedicalRecord>) any());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
 
@@ -81,7 +80,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testCreateRecord3() throws IOException {
+    void testCreateRecordThrowableExceptions() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
@@ -110,7 +109,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testGetAllRecord2() throws IOException {
+    void testGetAllRecordVerify() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
@@ -124,7 +123,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testGetAllRecord3() throws IOException {
+    void testGetAllRecordFailed() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
         assertThrows(IOException.class, () -> this.medicalRecordServiceImpl.getAllRecord());
         verify(this.jsonFileService).jsonReaderService();
@@ -140,7 +139,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testUpdateRecord2() throws IOException {
+    void testUpdateRecordVerify() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
@@ -163,7 +162,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testUpdateRecord3() throws IOException {
+    void testUpdateRecordThrowableException() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
@@ -183,7 +182,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testUpdateRecord4() throws IOException {
+    void testUpdateRecordMultiple() throws IOException {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setAllergies(new ArrayList<>());
         medicalRecord.setBirthdate("2020-03-01");
@@ -215,7 +214,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testUpdateRecord5() throws IOException {
+    void testUpdateRecordVerifyMultiple() throws IOException {
         MedicalRecord medicalRecord = mock(MedicalRecord.class);
         when(medicalRecord.getFirstName()).thenReturn("foo");
         when(medicalRecord.getLastName()).thenReturn("Doe");
@@ -261,7 +260,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testUpdateRecord6() throws IOException {
+    void testUpdateRecordVerifyLoop() throws IOException {
         MedicalRecord medicalRecord = mock(MedicalRecord.class);
         when(medicalRecord.getFirstName()).thenReturn("Jane");
         when(medicalRecord.getLastName()).thenReturn("foo");
@@ -315,7 +314,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testDeleteRecord2() throws IOException {
+    void testDeleteRecordVerify() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
@@ -338,7 +337,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testDeleteRecord3() throws IOException {
+    void testDeleteRecordThrowableExceptions() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
@@ -358,7 +357,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testDeleteRecord4() throws IOException {
+    void testDeleteRecordMultiple() throws IOException {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setAllergies(new ArrayList<>());
         medicalRecord.setBirthdate("2020-03-01");
@@ -390,7 +389,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testDeleteRecord5() throws IOException {
+    void testDeleteRecordMultipleVerify() throws IOException {
         MedicalRecord medicalRecord = mock(MedicalRecord.class);
         when(medicalRecord.getFirstName()).thenReturn("foo");
         when(medicalRecord.getLastName()).thenReturn("Doe");
@@ -436,7 +435,7 @@ class MedicalRecordServiceImplTest {
     }
 
     @Test
-    void testDeleteRecord6() throws IOException {
+    void testDeleteRecordMultipleVerifyLoop() throws IOException {
         MedicalRecord medicalRecord = mock(MedicalRecord.class);
         when(medicalRecord.getFirstName()).thenReturn("Jane");
         when(medicalRecord.getLastName()).thenReturn("foo");

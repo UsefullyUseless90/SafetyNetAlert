@@ -31,7 +31,7 @@ class UrlsControllerTest {
     private UrlsController urlsController;
 
     @Test
-    void testChildAlert() throws Exception {
+    void testChildAlertEmpty() throws Exception {
         when(this.serviceUrls.childAlert((String) any())).thenReturn(new ChildList());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/childAlert").param("address", "foo");
         MockMvcBuilders.standaloneSetup(this.urlsController)
@@ -44,7 +44,7 @@ class UrlsControllerTest {
 
 
     @Test
-    void testChildAlert2() throws Exception {
+    void testChildAlert() throws Exception {
         when(this.serviceUrls.childAlert((String) any())).thenReturn(new ChildList());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/childAlert");
         getResult.contentType("https://example.org/example");
@@ -58,31 +58,13 @@ class UrlsControllerTest {
     }
 
     @Test
-    void testPhoneNumber2() throws Exception {
-        when(this.serviceUrls.phoneNumber((String) any())).thenReturn(new PhoneNumber());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/phoneAlert")
-                .param("firestation", "foo");
-        MockMvcBuilders.standaloneSetup(this.urlsController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{\"phoneNumber\":null}"));
-    }
-
-    @Test
-    void testPhoneNumber3() throws Exception {
-        when(this.serviceUrls.phoneNumber((String) any())).thenReturn(new PhoneNumber());
-        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/phoneAlert");
-        getResult.contentType("https://example.org/example");
-        MockHttpServletRequestBuilder requestBuilder = getResult.param("firestation", "foo");
-        MockMvcBuilders.standaloneSetup(this.urlsController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content().string("{\"phoneNumber\":null}"));
-    }
+    void testChildAlertBadRequest() throws Exception {
+    MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/childAlert");
+    ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.urlsController)
+            .build()
+            .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(400));
+}
 
     @Test
     void testFireAddress() throws Exception {
@@ -97,10 +79,10 @@ class UrlsControllerTest {
     }
 
     @Test
-    void testFireAddress2() throws Exception {
+    void testFireAddressEmpty() throws Exception {
         when(this.serviceUrls.fireAddress((String) any())).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/fire");
-        getResult.contentType("https://example.org/example");
+        getResult.contentType("fire");
         MockHttpServletRequestBuilder requestBuilder = getResult.param("address", "foo");
         MockMvcBuilders.standaloneSetup(this.urlsController)
                 .build()
@@ -110,6 +92,14 @@ class UrlsControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("[]"));
     }
 
+    @Test
+    void testFireAddressBadRequest() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/fire");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.urlsController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(400));
+    }
     @Test
     void testPersonInfo() throws Exception {
         when(this.serviceUrls.personInfo((String) any(), (String) any())).thenReturn(new ArrayList<>());
@@ -125,10 +115,10 @@ class UrlsControllerTest {
     }
 
     @Test
-    void testPersonInfo2() throws Exception {
+    void testPersonInfoEmpty() throws Exception {
         when(this.serviceUrls.personInfo((String) any(), (String) any())).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/personInfo");
-        getResult.contentType("https://example.org/example");
+        getResult.contentType("person");
         MockHttpServletRequestBuilder requestBuilder = getResult.param("firstName", "foo").param("lastName", "foo");
         MockMvcBuilders.standaloneSetup(this.urlsController)
                 .build()
@@ -139,7 +129,16 @@ class UrlsControllerTest {
     }
 
     @Test
-    void testCommunityEmail() throws Exception {
+    void testPersonInfoBadRequest() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/personInfo");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.urlsController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(400));
+    }
+
+    @Test
+    void testCommunityEmailEmpty() throws Exception {
         when(this.serviceUrls.communityEmail((String) any())).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/communityEmail").param("city", "foo");
         MockMvcBuilders.standaloneSetup(this.urlsController)
@@ -151,7 +150,7 @@ class UrlsControllerTest {
     }
 
     @Test
-    void testCommunityEmail2() throws Exception {
+    void testCommunityEmail() throws Exception {
         when(this.serviceUrls.communityEmail((String) any())).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/communityEmail");
         getResult.contentType("https://example.org/example");
@@ -165,7 +164,16 @@ class UrlsControllerTest {
     }
 
     @Test
-    void testFloodStation() throws Exception {
+    void testCommunityEmailBadRequest() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/communityEmail");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.urlsController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(400));
+    }
+
+    @Test
+    void testFloodStationBadRequest() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/flood/stations");
         ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.urlsController)
                 .build()
@@ -175,6 +183,21 @@ class UrlsControllerTest {
 
     @Test
     void testPhoneNumber() throws Exception {
+        PhoneNumber phoneNumber = new PhoneNumber();
+        phoneNumber.setPhoneNumber(new ArrayList<>());
+        when(this.serviceUrls.phoneNumber((String) any())).thenReturn(phoneNumber);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/phoneAlert")
+                .param("firestation", "foo");
+        MockMvcBuilders.standaloneSetup(this.urlsController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{\"phoneNumber\":[]}"));
+    }
+
+    @Test
+    void testPhoneNumberBadRequest() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/childAlert")
                 .param("firestationNumber", "foo");
         ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.urlsController)

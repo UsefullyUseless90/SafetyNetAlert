@@ -37,7 +37,10 @@ class FireStationServiceImplTest {
     @InjectMocks
     FireStationServiceImpl fireStationServiceImpl;
 
-
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void testCreateStation() throws IOException, JSONException {
@@ -63,7 +66,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testCreateStation2() throws IOException, JSONException {
+    void testCreateStationThrowableExceptions() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
@@ -79,11 +82,6 @@ class FireStationServiceImplTest {
         verify(this.jsonFileService).updateStations((List<FireStation>) any());
     }
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
     void testGetAllStation() throws IOException {
         when(jsonFileService.jsonReaderService()).thenReturn(data);
@@ -94,7 +92,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testGetAllStation2() throws IOException {
+    void testGetAllStationEmpty() throws IOException {
         DataJson dataJson = new DataJson();
         ArrayList<FireStation> fireStationList = new ArrayList<>();
         dataJson.setFirestations(fireStationList);
@@ -108,7 +106,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testGetAllStation3() throws IOException {
+    void testGetAllStationFailed() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
         assertThrows(IOException.class, () -> this.fireStationServiceImpl.getAllStation());
         verify(this.jsonFileService).jsonReaderService();
@@ -126,7 +124,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testUpdateStation2() throws IOException {
+    void testUpdateStationThrowableExceptions() throws IOException {
         DataJson dataJson = new DataJson();
         ArrayList<FireStation> fireStationList = new ArrayList<>();
         dataJson.setFirestations(fireStationList);
@@ -146,7 +144,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testUpdateStation3() throws IOException {
+    void testUpdateStationExceptions() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
@@ -163,7 +161,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testUpdateStation4() throws IOException {
+    void testUpdateStationVerifyLists() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -189,7 +187,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testUpdateStation5() throws IOException {
+    void testUpdateStationMultiple() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("foo");
         doNothing().when(fireStation).setAddress((String) any());
@@ -232,7 +230,7 @@ class FireStationServiceImplTest {
 
 
     @Test
-    void testDeleteStation2() throws IOException {
+    void testDeleteStationThrowableExceptions() throws IOException {
         DataJson dataJson = new DataJson();
         ArrayList<FireStation> fireStationList = new ArrayList<>();
         dataJson.setFirestations(fireStationList);
@@ -252,7 +250,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testDeleteStation3() throws IOException {
+    void testDeleteStationExceptions() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
@@ -269,7 +267,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testDeleteStation4() throws IOException {
+    void testDeleteStationVerify() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -295,7 +293,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testDeleteStation5() throws IOException {
+    void testDeleteStationMultiple() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("foo");
         when(fireStation.getStation()).thenReturn("Station");
@@ -329,7 +327,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testDeleteStation6() throws IOException {
+    void testDeleteStationVerifyLoop() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
         when(fireStation.getStation()).thenReturn("foo");
@@ -377,23 +375,23 @@ class FireStationServiceImplTest {
 
         dataJson.setFirestations(fireStationList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.fireStationServiceImpl.filteredData("42");
+        this.fireStationServiceImpl.filteredData("Station");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFilteredData2() throws IOException {
+    void testFilteredDataEmpty() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.fireStationServiceImpl.filteredData("42");
+        this.fireStationServiceImpl.filteredData("Station");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFilteredData3() throws IOException {
+    void testFilteredDataFireStation() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -411,7 +409,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testFilteredData4() throws IOException {
+    void testFilteredDataMedicalRecord() throws IOException {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setAllergies(new ArrayList<>());
         medicalRecord.setBirthdate("2020-03-01");
@@ -432,7 +430,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testFilteredData5() throws IOException {
+    void testFilteredDataPerson() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -455,14 +453,14 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testFilteredData6() throws IOException {
+    void testFilteredDataFailed() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
         assertThrows(IOException.class, () -> this.fireStationServiceImpl.filteredData("42"));
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFilteredData7() throws IOException {
+    void testFilteredDatafirestationList() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -485,7 +483,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testFilteredData8() throws IOException {
+    void testFilteredDataFirestationMedicalRecord() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
         when(fireStation.getStation()).thenReturn("42");
@@ -515,7 +513,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testFilteredData9() throws IOException {
+    void testFilteredDataLoop() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
         when(fireStation.getStation()).thenReturn("Station");
@@ -551,7 +549,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testFilteredData10() throws IOException {
+    void testFilteredDataFirestationPerson() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
         when(fireStation.getStation()).thenReturn("Station");
@@ -589,7 +587,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testFilteredData11() throws IOException {
+    void testFilteredDataFirestationPersonLoop() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
         when(fireStation.getStation()).thenReturn("42");
@@ -636,55 +634,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testFilteredData12() throws IOException {
-        FireStation fireStation = mock(FireStation.class);
-        when(fireStation.getAddress()).thenReturn("42 Main St");
-        when(fireStation.getStation()).thenReturn("Station");
-        doNothing().when(fireStation).setAddress((String) any());
-        doNothing().when(fireStation).setStation((String) any());
-        fireStation.setAddress("42 Main St");
-        fireStation.setStation("Station");
-
-        ArrayList<FireStation> fireStationList = new ArrayList<>();
-        fireStationList.add(fireStation);
-
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setAllergies(new ArrayList<>());
-        medicalRecord.setBirthdate("2020-03-01");
-        medicalRecord.setFirstName("Jane");
-        medicalRecord.setLastName("Doe");
-        medicalRecord.setMedications(new ArrayList<>());
-
-        ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
-        medicalRecordList.add(medicalRecord);
-
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("Jane");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-
-        ArrayList<Person> personList = new ArrayList<>();
-        personList.add(person);
-
-        DataJson dataJson = new DataJson();
-        dataJson.setFirestations(fireStationList);
-        dataJson.setMedicalrecords(medicalRecordList);
-        dataJson.setPersons(personList);
-        when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.fireStationServiceImpl.filteredData("42");
-        verify(this.jsonFileService).jsonReaderService();
-        verify(fireStation).getAddress();
-        verify(fireStation).getStation();
-        verify(fireStation).setAddress((String) any());
-        verify(fireStation).setStation((String) any());
-    }
-
-    @Test
-    void testFilteredData13() throws IOException {
+    void testFilteredDataFirestationListPlusPerson() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
         when(fireStation.getStation()).thenReturn("Station");
@@ -727,7 +677,7 @@ class FireStationServiceImplTest {
     }
 
     @Test
-    void testFilteredData14() throws IOException {
+    void testFilteredDataFirestationPlusPersonList() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("Doe");
         when(fireStation.getStation()).thenReturn("Station");

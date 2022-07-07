@@ -58,10 +58,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testCreatePerson2() throws IOException {
+    void testCreatePersonInList() throws IOException {
         DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(new ArrayList<>());
         ArrayList<Person> personList = new ArrayList<>();
         dataJson.setPersons(personList);
         doNothing().when(this.jsonFileService).updatePersons((List<Person>) any());
@@ -90,10 +88,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testCreatePerson3() throws IOException {
+    void testCreatePersonExceptionsThrowable() throws IOException {
         DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         doThrow(new IOException("An error occurred")).when(this.jsonFileService).updatePersons((List<Person>) any());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
@@ -120,10 +116,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testGetAllPerson2() throws IOException {
+    void testGetAllPersonVerifyList() throws IOException {
         DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(new ArrayList<>());
         ArrayList<Person> personList = new ArrayList<>();
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
@@ -134,7 +128,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testGetAllPerson3() throws IOException {
+    void testGetAllPersonFailed() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
         assertThrows(IOException.class, () -> this.personServiceImpl.getAllPerson());
         verify(this.jsonFileService).jsonReaderService();
@@ -150,10 +144,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testUpdatePerson2() throws IOException {
+    void testUpdatePersonVerify() throws IOException {
         DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(new ArrayList<>());
         ArrayList<Person> personList = new ArrayList<>();
         dataJson.setPersons(personList);
         doNothing().when(this.jsonFileService).updatePersons((List<Person>) any());
@@ -175,10 +167,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testUpdatePerson3() throws IOException {
+    void testUpdatePersonThrowableException() throws IOException {
         DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         doThrow(new IOException("An error occurred")).when(this.jsonFileService).updatePersons((List<Person>) any());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
@@ -197,7 +187,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testUpdatePerson4() throws IOException {
+    void testUpdatePersonMultipleInList() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -211,8 +201,6 @@ class PersonServiceImplTest {
         personList.add(person);
 
         DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         doNothing().when(this.jsonFileService).updatePersons((List<Person>) any());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
@@ -242,10 +230,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testDeletePerson2() throws IOException {
+    void testDeletePersonVerifyList() throws IOException {
         DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(new ArrayList<>());
         ArrayList<Person> personList = new ArrayList<>();
         dataJson.setPersons(personList);
         doNothing().when(this.jsonFileService).updatePersons((List<Person>) any());
@@ -267,10 +253,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testDeletePerson3() throws IOException {
+    void testDeletePersonThrowableException() throws IOException {
         DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         doThrow(new IOException("An error occurred")).when(this.jsonFileService).updatePersons((List<Person>) any());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
@@ -289,7 +273,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testDeletePerson4() throws IOException {
+    void testDeletePersonMultiple() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");

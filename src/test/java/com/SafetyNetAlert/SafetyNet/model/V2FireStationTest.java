@@ -29,7 +29,7 @@ class V2FireStationTest {
 
 
     @Test
-    void testAddNewFamily2() {
+    void testAddNewFamilyEmpty() {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         V2FireStation v2FireStation = new V2FireStation(fireStation);
@@ -39,7 +39,7 @@ class V2FireStationTest {
 
 
     @Test
-    void testAddNewFamily3() {
+    void testAddNewFamilyActualAdding() {
         V2FireStation v2FireStation = new V2FireStation(new FireStation());
         v2FireStation.setFamilyList(new ArrayList<>());
         v2FireStation.addNewFamily("42 Main St");

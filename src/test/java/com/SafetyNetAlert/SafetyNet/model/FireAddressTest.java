@@ -50,7 +50,6 @@ class FireAddressTest {
         fireAddress.setFirstName(v2.getFirstName());
         fireAddress.setPhoneNumber(v2.getPhone());
         fireAddress.setAge(v2.getAge());
-        fireAddress.setAddress(p.getAddress());
         fireAddress.setAllergies(medicalRecord.getAllergies());
         fireAddress.setMedications(medicalRecord.getMedications());
 
@@ -58,7 +57,6 @@ class FireAddressTest {
 
     @Test
     void testConstructor() {
-        assertEquals("78 3rd Street", this.fireAddress.getAddress());
         assertEquals("1",this.fireAddress.getStationID());
         assertEquals("4105551212",this.fireAddress.getPhoneNumber());
         List<String> medications = this.fireAddress.getMedications();

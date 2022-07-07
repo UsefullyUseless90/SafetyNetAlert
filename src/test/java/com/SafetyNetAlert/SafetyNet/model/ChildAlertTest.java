@@ -1,10 +1,12 @@
 package com.SafetyNetAlert.SafetyNet.model;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ChildAlertTest {
 
@@ -38,8 +40,8 @@ class ChildAlertTest {
     void testConstructor() {
 
         assertEquals("78 3rd Street", cA.getAddress());
-        assertEquals("Scott" ,cA.getLastName());
-        assertEquals( "Michael" ,cA.getFirstName());
+        assertEquals("Scott", cA.getLastName());
+        assertEquals("Michael", cA.getFirstName());
         assertEquals(7, cA.getAge());
 
     }

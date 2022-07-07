@@ -78,7 +78,7 @@ class MedicalRecordControllerTest {
     ObjectMapper mapper;
 
     @Test
-    void testCreateRecord() throws Exception {
+    void testCreateRecordEmpty() throws Exception {
         String json = mapper.writeValueAsString(record);
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -89,7 +89,7 @@ class MedicalRecordControllerTest {
     }
 
     @Test
-    void testCreateRecord2() throws Exception {
+    void testCreateRecordData() throws Exception {
         when(this.medicalRecordService.getAllRecord()).thenReturn(new ArrayList<>());
 
         MedicalRecord medicalRecord = new MedicalRecord();
@@ -111,7 +111,7 @@ class MedicalRecordControllerTest {
     }
 
     @Test
-    void testDeleteRecord2() throws Exception {
+    void testDeleteRecordData() throws Exception {
         when(this.medicalRecordService.getAllRecord()).thenReturn(new ArrayList<>());
 
         MedicalRecord medicalRecord = new MedicalRecord();
@@ -140,7 +140,7 @@ class MedicalRecordControllerTest {
     }
 
     @Test
-    void testGetAllRecord2() throws Exception {
+    void testGetAllRecordEmpty() throws Exception {
         when(this.medicalRecordService.getAllRecord()).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/medicalRecord");
         MockMvcBuilders.standaloneSetup(this.medicalRecordController)
@@ -152,10 +152,10 @@ class MedicalRecordControllerTest {
     }
 
     @Test
-    void testGetAllRecord3() throws Exception {
+    void testGetAllRecordData() throws Exception {
         when(this.medicalRecordService.getAllRecord()).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/medicalRecord");
-        getResult.contentType("https://example.org/example");
+        getResult.contentType("record");
         MockMvcBuilders.standaloneSetup(this.medicalRecordController)
                 .build()
                 .perform(getResult)

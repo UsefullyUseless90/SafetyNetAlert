@@ -1,5 +1,7 @@
 package com.SafetyNetAlert.SafetyNet.controller;
 
+import com.SafetyNetAlert.SafetyNet.model.CommunityEmail;
+import com.SafetyNetAlert.SafetyNet.model.PhoneNumber;
 import com.SafetyNetAlert.SafetyNet.service.ServiceUrls;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -44,7 +47,9 @@ public class UrlsController {
 
     @RequestMapping(value = "/phoneAlert", params = "firestation")
     public ResponseEntity<?>phoneNumber(@RequestParam String firestation) throws IOException{
-        return ResponseEntity.status(HttpStatus.OK).body(serviceUrls.phoneNumber(firestation));
+        PhoneNumber phoneNumber = serviceUrls.phoneNumber(firestation);
+        phoneNumber.setPhoneNumber(phoneNumber.getPhoneNumber().stream().distinct().collect(Collectors.toList()));
+        return ResponseEntity.status(HttpStatus.OK).body(phoneNumber);
     }
 
     /**

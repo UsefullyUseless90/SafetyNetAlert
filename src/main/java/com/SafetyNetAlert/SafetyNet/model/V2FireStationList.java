@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 public class V2FireStationList {
 
     private List<V2FireStation> stations;

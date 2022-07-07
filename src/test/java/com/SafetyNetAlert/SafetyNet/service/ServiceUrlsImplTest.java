@@ -1,34 +1,20 @@
 package com.SafetyNetAlert.SafetyNet.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.SafetyNetAlert.SafetyNet.jsonfiles.JsonFileService;
-import com.SafetyNetAlert.SafetyNet.model.ChildAlert;
-import com.SafetyNetAlert.SafetyNet.model.ChildList;
-import com.SafetyNetAlert.SafetyNet.model.CommunityEmail;
-import com.SafetyNetAlert.SafetyNet.model.DataJson;
-import com.SafetyNetAlert.SafetyNet.model.FireStation;
-import com.SafetyNetAlert.SafetyNet.model.MedicalRecord;
-import com.SafetyNetAlert.SafetyNet.model.Person;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.SafetyNetAlert.SafetyNet.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {ServiceUrlsImpl.class})
 @ExtendWith(SpringExtension.class)
@@ -40,61 +26,18 @@ class ServiceUrlsImplTest {
     private ServiceUrlsImpl serviceUrlsImpl;
 
     @Test
-    void testChildAlert() throws IOException {
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("Jane");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-
-        Person person1 = new Person();
-        person1.setAddress("42 Main St");
-        person1.setCity("Oxford");
-        person1.setEmail("jane.doe@example.org");
-        person1.setFirstName("Jane");
-        person1.setLastName("Doe");
-        person1.setPhone("4105551212");
-        person1.setZip("21654");
-
-        ArrayList<Person> personList = new ArrayList<>();
-        personList.add(person1);
-        personList.add(person);
-
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setAllergies(new ArrayList<>());
-        medicalRecord.setBirthdate("2020-03-01");
-        medicalRecord.setFirstName("Jane");
-        medicalRecord.setLastName("Doe");
-        medicalRecord.setMedications(new ArrayList<>());
-
-        ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
-        medicalRecordList.add(medicalRecord);
-
-        DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(medicalRecordList);
-        dataJson.setPersons(personList);
-        when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.childAlert("https://example.org/example");
-        verify(this.jsonFileService).jsonReaderService();
-    }
-
-    @Test
-    void testChildAlert2() throws IOException {
+    void testChildAlertEmptyVersion() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.childAlert("https://example.org/example");
+        this.serviceUrlsImpl.childAlert("42 Main St");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testChildAlert3() throws IOException {
+    void testChildAlertMedicalAssign() throws IOException {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setAllergies(new ArrayList<>());
         medicalRecord.setBirthdate("2020-03-01");
@@ -110,12 +53,12 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(medicalRecordList);
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.childAlert("https://example.org/example");
+        this.serviceUrlsImpl.childAlert("42 Main St");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testChildAlert4() throws IOException {
+    void testChildAlertPerson() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -133,19 +76,19 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.childAlert("https://example.org/example");
+        this.serviceUrlsImpl.childAlert("42 Main St");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testChildAlert5() throws IOException {
+    void testChildAlertFail() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
         assertThrows(IOException.class, () -> this.serviceUrlsImpl.childAlert("https://example.org/example"));
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testChildAlert6() throws IOException {
+    void testChildAlertPersonList() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -173,45 +116,12 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.childAlert("https://example.org/example");
+        this.serviceUrlsImpl.childAlert("42 Main St");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testChildAlert7() throws IOException {
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setAllergies(new ArrayList<>());
-        medicalRecord.setBirthdate("2020-03-01");
-        medicalRecord.setFirstName("Jane");
-        medicalRecord.setLastName("Doe");
-        medicalRecord.setMedications(new ArrayList<>());
-
-        ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
-        medicalRecordList.add(medicalRecord);
-
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("Jane");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-
-        ArrayList<Person> personList = new ArrayList<>();
-        personList.add(person);
-
-        DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(medicalRecordList);
-        dataJson.setPersons(personList);
-        when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.childAlert("https://example.org/example");
-        verify(this.jsonFileService).jsonReaderService();
-    }
-
-    @Test
-    void testChildAlert8() throws IOException {
+    void testChildAlertSetters() throws IOException {
         Person person = mock(Person.class);
         when(person.getAddress()).thenReturn("42 Main St");
         when(person.getEmail()).thenReturn("jane.doe@example.org");
@@ -274,10 +184,10 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPhoneNumber() throws IOException {
+    void testPhoneNumberFirestation() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
-        fireStation.setStation("Station");
+        fireStation.setStation("4");
 
         ArrayList<FireStation> fireStationList = new ArrayList<>();
         fireStationList.add(fireStation);
@@ -287,26 +197,26 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
+        this.serviceUrlsImpl.phoneNumber("4");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testPhoneNumber2() throws IOException {
+    void testPhoneNumberEmpty() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
+        this.serviceUrlsImpl.phoneNumber("3");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testPhoneNumber3() throws IOException {
+    void testPhoneNumberFirestationLoop() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
-        fireStation.setStation("Station");
+        fireStation.setStation("4");
 
         ArrayList<FireStation> fireStationList = new ArrayList<>();
         fireStationList.add(fireStation);
@@ -316,12 +226,12 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
+        this.serviceUrlsImpl.phoneNumber("5");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testPhoneNumber4() throws IOException {
+    void testPhoneNumberPerson() throws IOException {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setAllergies(new ArrayList<>());
         medicalRecord.setBirthdate("2020-03-01");
@@ -337,12 +247,12 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(medicalRecordList);
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
+        this.serviceUrlsImpl.phoneNumber("1");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testPhoneNumber5() throws IOException {
+    void testPhoneNumberPersonLoop() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -360,19 +270,19 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
+        this.serviceUrlsImpl.phoneNumber("5");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testPhoneNumber6() throws IOException {
+    void testPhoneNumberFailed() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
         assertThrows(IOException.class, () -> this.serviceUrlsImpl.phoneNumber("https://example.org/example"));
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testPhoneNumber7() throws IOException {
+    void testPhoneNumberStationList() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -390,12 +300,12 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
+        this.serviceUrlsImpl.phoneNumber("3,1");
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testPhoneNumber8() throws IOException {
+    void testPhoneNumberStationPlusRecord() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
         when(fireStation.getStation()).thenReturn("Station");
@@ -422,7 +332,7 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(medicalRecordList);
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
+        this.serviceUrlsImpl.phoneNumber("90");
         verify(this.jsonFileService).jsonReaderService();
         verify(fireStation).getAddress();
         verify(fireStation).getStation();
@@ -431,7 +341,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPhoneNumber9() throws IOException {
+    void testPhoneNumberStationPlusPerson() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
         when(fireStation.getStation()).thenReturn("Station");
@@ -460,7 +370,7 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
+        this.serviceUrlsImpl.phoneNumber("90");
         verify(this.jsonFileService).jsonReaderService();
         verify(fireStation).getAddress();
         verify(fireStation).getStation();
@@ -469,14 +379,14 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPhoneNumber10() throws IOException {
+    void testPhoneNumberStationPersonMedic() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
-        when(fireStation.getStation()).thenReturn("https://example.org/example");
+        when(fireStation.getStation()).thenReturn("90");
         doNothing().when(fireStation).setAddress((String) any());
         doNothing().when(fireStation).setStation((String) any());
         fireStation.setAddress("42 Main St");
-        fireStation.setStation("Station");
+        fireStation.setStation("90");
 
         ArrayList<FireStation> fireStationList = new ArrayList<>();
         fireStationList.add(fireStation);
@@ -497,7 +407,7 @@ class ServiceUrlsImplTest {
         ArrayList<Person> personList = new ArrayList<>();
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertEquals(personList, this.serviceUrlsImpl.phoneNumber("https://example.org/example").getPhoneNumber());
+        assertEquals(personList, this.serviceUrlsImpl.phoneNumber("90").getPhoneNumber());
         verify(this.jsonFileService).jsonReaderService();
         verify(fireStation).getAddress();
         verify(fireStation).getStation();
@@ -506,55 +416,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPhoneNumber11() throws IOException {
-        FireStation fireStation = mock(FireStation.class);
-        when(fireStation.getAddress()).thenReturn("42 Main St");
-        when(fireStation.getStation()).thenReturn("Station");
-        doNothing().when(fireStation).setAddress((String) any());
-        doNothing().when(fireStation).setStation((String) any());
-        fireStation.setAddress("42 Main St");
-        fireStation.setStation("Station");
-
-        ArrayList<FireStation> fireStationList = new ArrayList<>();
-        fireStationList.add(fireStation);
-
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setAllergies(new ArrayList<>());
-        medicalRecord.setBirthdate("2020-03-01");
-        medicalRecord.setFirstName("Jane");
-        medicalRecord.setLastName("Doe");
-        medicalRecord.setMedications(new ArrayList<>());
-
-        ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
-        medicalRecordList.add(medicalRecord);
-
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("Jane");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-
-        ArrayList<Person> personList = new ArrayList<>();
-        personList.add(person);
-
-        DataJson dataJson = new DataJson();
-        dataJson.setFirestations(fireStationList);
-        dataJson.setMedicalrecords(medicalRecordList);
-        dataJson.setPersons(personList);
-        when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
-        verify(this.jsonFileService).jsonReaderService();
-        verify(fireStation).getAddress();
-        verify(fireStation).getStation();
-        verify(fireStation).setAddress((String) any());
-        verify(fireStation).setStation((String) any());
-    }
-
-    @Test
-    void testPhoneNumber12() throws IOException {
+    void testPhoneNumberStationListPlusPerson() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
         when(fireStation.getStation()).thenReturn("Station");
@@ -565,7 +427,7 @@ class ServiceUrlsImplTest {
 
         FireStation fireStation1 = new FireStation();
         fireStation1.setAddress("42 Main St");
-        fireStation1.setStation("42 Main St");
+        fireStation1.setStation("90");
 
         ArrayList<FireStation> fireStationList = new ArrayList<>();
         fireStationList.add(fireStation1);
@@ -597,7 +459,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPhoneNumber13() throws IOException {
+    void testPhoneNumberPersonsStation() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("Doe");
         when(fireStation.getStation()).thenReturn("Station");
@@ -626,7 +488,7 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        this.serviceUrlsImpl.phoneNumber("https://example.org/example");
+        this.serviceUrlsImpl.phoneNumber("90");
         verify(this.jsonFileService).jsonReaderService();
         verify(fireStation).getAddress();
         verify(fireStation).getStation();
@@ -635,10 +497,10 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPhoneNumber14() throws IOException {
+    void testPhoneNumberStationsListPlusPersonList() throws IOException {
         FireStation fireStation = mock(FireStation.class);
         when(fireStation.getAddress()).thenReturn("42 Main St");
-        when(fireStation.getStation()).thenReturn("https://example.org/example");
+        when(fireStation.getStation()).thenReturn("90");
         doNothing().when(fireStation).setAddress((String) any());
         doNothing().when(fireStation).setStation((String) any());
         fireStation.setAddress("42 Main St");
@@ -664,7 +526,7 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        List<String> phoneNumber = this.serviceUrlsImpl.phoneNumber("https://example.org/example").getPhoneNumber();
+        List<String> phoneNumber = this.serviceUrlsImpl.phoneNumber("90").getPhoneNumber();
         assertEquals(1, phoneNumber.size());
         assertEquals("4105551212", phoneNumber.get(0));
         verify(this.jsonFileService).jsonReaderService();
@@ -682,58 +544,18 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFireAddress() throws IOException {
-        FireStation fireStation = new FireStation();
-        fireStation.setAddress("42 Main St");
-        fireStation.setStation("Station");
-
-        ArrayList<FireStation> fireStationList = new ArrayList<>();
-        fireStationList.add(fireStation);
-
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("Jane");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-
-        ArrayList<Person> personList = new ArrayList<>();
-        personList.add(person);
-
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setAllergies(new ArrayList<>());
-        medicalRecord.setBirthdate("2020-03-01");
-        medicalRecord.setFirstName("Jane");
-        medicalRecord.setLastName("Doe");
-        medicalRecord.setMedications(new ArrayList<>());
-
-        ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
-        medicalRecordList.add(medicalRecord);
-
-        DataJson dataJson = new DataJson();
-        dataJson.setFirestations(fireStationList);
-        dataJson.setMedicalrecords(medicalRecordList);
-        dataJson.setPersons(personList);
-        when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/example").isEmpty());
-        verify(this.jsonFileService).jsonReaderService();
-    }
-
-    @Test
-    void testFireAddress2() throws IOException {
+    void testFireAddressEmpty() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/example").isEmpty());
+        assertTrue(this.serviceUrlsImpl.fireAddress("address").isEmpty());
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFireAddress3() throws IOException {
+    void testFireAddressFirestation() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -746,12 +568,12 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/example").isEmpty());
+        assertTrue(this.serviceUrlsImpl.fireAddress("address").isEmpty());
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFireAddress4() throws IOException {
+    void testFireAddressMedicalRecord() throws IOException {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setAllergies(new ArrayList<>());
         medicalRecord.setBirthdate("2020-03-01");
@@ -767,12 +589,12 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(medicalRecordList);
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/example").isEmpty());
+        assertTrue(this.serviceUrlsImpl.fireAddress("address").isEmpty());
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFireAddress5() throws IOException {
+    void testFireAddressPerson() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -790,19 +612,19 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/example").isEmpty());
+        assertTrue(this.serviceUrlsImpl.fireAddress("address").isEmpty());
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFireAddress6() throws IOException {
+    void testFireAddressFailed() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
         assertThrows(IOException.class, () -> this.serviceUrlsImpl.fireAddress("https://example.org/example"));
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFireAddress7() throws IOException {
+    void testFireAddressFireStationList() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -825,7 +647,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFireAddress8() throws IOException {
+    void testFireAddressFirestationMedic() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -848,12 +670,10 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(medicalRecordList);
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/example").isEmpty());
-        verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFireAddress9() throws IOException {
+    void testFireAddressFireStationPerson() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -878,12 +698,11 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/example").isEmpty());
-        verify(this.jsonFileService).jsonReaderService();
+        assertEquals("42 Main St", person.getAddress());
     }
 
     @Test
-    void testFireAddress10() throws IOException {
+    void testFireAddressFireStationListData() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -904,7 +723,7 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/example").isEmpty());
+        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/").isEmpty());
         verify(this.jsonFileService).jsonReaderService();
         verify(fireStation1).getAddress();
         verify(fireStation1).getStation();
@@ -913,7 +732,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFireAddress11() throws IOException {
+    void testFireAddressFirestationListLoop() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -934,7 +753,7 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.fireAddress("https://example.org/example").isEmpty());
+        assertTrue(this.serviceUrlsImpl.fireAddress("Oxford").isEmpty());
         verify(this.jsonFileService).jsonReaderService();
         verify(fireStation1).getAddress();
         verify(fireStation1).getStation();
@@ -950,47 +769,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation() throws IOException {
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("Jane");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-
-        ArrayList<Person> personList = new ArrayList<>();
-        personList.add(person);
-
-        FireStation fireStation = new FireStation();
-        fireStation.setAddress("42 Main St");
-        fireStation.setStation("Station");
-
-        ArrayList<FireStation> fireStationList = new ArrayList<>();
-        fireStationList.add(fireStation);
-
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setAllergies(new ArrayList<>());
-        medicalRecord.setBirthdate("2020-03-01");
-        medicalRecord.setFirstName("Jane");
-        medicalRecord.setLastName("Doe");
-        medicalRecord.setMedications(new ArrayList<>());
-
-        ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
-        medicalRecordList.add(medicalRecord);
-
-        DataJson dataJson = new DataJson();
-        dataJson.setFirestations(fireStationList);
-        dataJson.setMedicalrecords(medicalRecordList);
-        dataJson.setPersons(personList);
-        when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.floodStation(new ArrayList<>()).isEmpty());
-        verify(this.jsonFileService).jsonReaderService();
-    }
-
-    @Test
-    void testFloodStation2() throws IOException {
+    void testFloodStationEmpty() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
@@ -1001,7 +780,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation3() throws IOException {
+    void testFloodStationFirestation() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -1019,7 +798,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation4() throws IOException {
+    void testFloodStationMedicalRecord() throws IOException {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setAllergies(new ArrayList<>());
         medicalRecord.setBirthdate("2020-03-01");
@@ -1040,7 +819,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation5() throws IOException {
+    void testFloodStationPerson() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -1063,14 +842,14 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation6() throws IOException {
+    void testFloodStationFailed() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
         assertThrows(IOException.class, () -> this.serviceUrlsImpl.floodStation(new ArrayList<>()));
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testFloodStation7() throws IOException {
+    void testFloodStationFirestationList() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -1093,7 +872,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation8() throws IOException {
+    void testFloodStationFirestationMedicalRecords() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -1121,7 +900,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation9() throws IOException {
+    void testFloodStationFirestationPerson() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -1151,7 +930,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation10() throws IOException {
+    void testFloodStationFirestationLoop() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -1181,7 +960,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation11() throws IOException {
+    void testFloodStationFirestationListLoop() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -1211,7 +990,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testFloodStation12() throws IOException {
+    void testFloodStationFirestationPersonLoop() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
@@ -1260,29 +1039,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPersonInfo() throws IOException {
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("Jane");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-
-        ArrayList<Person> personList = new ArrayList<>();
-        personList.add(person);
-
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setAllergies(new ArrayList<>());
-        medicalRecord.setBirthdate("2020-03-01");
-        medicalRecord.setFirstName("Jane");
-        medicalRecord.setLastName("Doe");
-        medicalRecord.setMedications(new ArrayList<>());
-
-        ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
-        medicalRecordList.add(medicalRecord);
-
+    void testPersonInfoEmpty() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
@@ -1292,19 +1049,11 @@ class ServiceUrlsImplTest {
         verify(this.jsonFileService).jsonReaderService();
     }
 
+    /**
+     * Method under test: {@link ServiceUrlsImpl#personInfo(String, String)}
+     */
     @Test
-    void testPersonInfo2() throws IOException {
-        DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(new ArrayList<>());
-        dataJson.setPersons(new ArrayList<>());
-        when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.personInfo("Jane", "Doe").isEmpty());
-        verify(this.jsonFileService).jsonReaderService();
-    }
-
-    @Test
-    void testPersonInfo3() throws IOException {
+    void testPersonInfoMedicalRecord() throws IOException {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setAllergies(new ArrayList<>());
         medicalRecord.setBirthdate("2020-03-01");
@@ -1325,7 +1074,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPersonInfo4() throws IOException {
+    void testPersonInfoPerson() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -1348,14 +1097,14 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPersonInfo5() throws IOException {
+    void testPersonInfoFailed() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
         assertThrows(IOException.class, () -> this.serviceUrlsImpl.personInfo("Jane", "Doe"));
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testPersonInfo6() throws IOException {
+    void testPersonInfoPersonList() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -1388,40 +1137,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPersonInfo7() throws IOException {
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setAllergies(new ArrayList<>());
-        medicalRecord.setBirthdate("2020-03-01");
-        medicalRecord.setFirstName("Jane");
-        medicalRecord.setLastName("Doe");
-        medicalRecord.setMedications(new ArrayList<>());
-
-        ArrayList<MedicalRecord> medicalRecordList = new ArrayList<>();
-        medicalRecordList.add(medicalRecord);
-
-        Person person = new Person();
-        person.setAddress("42 Main St");
-        person.setCity("Oxford");
-        person.setEmail("jane.doe@example.org");
-        person.setFirstName("Jane");
-        person.setLastName("Doe");
-        person.setPhone("4105551212");
-        person.setZip("21654");
-
-        ArrayList<Person> personList = new ArrayList<>();
-        personList.add(person);
-
-        DataJson dataJson = new DataJson();
-        dataJson.setFirestations(new ArrayList<>());
-        dataJson.setMedicalrecords(medicalRecordList);
-        dataJson.setPersons(personList);
-        when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertEquals(1, this.serviceUrlsImpl.personInfo("Jane", "Doe").size());
-        verify(this.jsonFileService).jsonReaderService();
-    }
-
-    @Test
-    void testPersonInfo8() throws IOException {
+    void testPersonInfoPersonData() throws IOException {
         Person person = mock(Person.class);
         when(person.getAddress()).thenReturn("42 Main St");
         when(person.getEmail()).thenReturn("jane.doe@example.org");
@@ -1468,14 +1184,7 @@ class ServiceUrlsImplTest {
     }
 
     @Test
-    void testPersonInfoError() throws IOException {
-        when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
-        assertThrows(IOException.class, () -> this.serviceUrlsImpl.personInfo("Jane", "Doe"));
-        verify(this.jsonFileService).jsonReaderService();
-    }
-
-    @Test
-    void testCommunityEmail() throws IOException {
+    void testCommunityEmailCityParameters() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -1493,23 +1202,23 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.communityEmail("https://example.org/example").isEmpty());
+        assertTrue(!this.serviceUrlsImpl.communityEmail("Oxford").isEmpty());
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testCommunityEmail2() throws IOException {
+    void testCommunityEmailDataJson() throws IOException {
         DataJson dataJson = new DataJson();
         dataJson.setFirestations(new ArrayList<>());
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(new ArrayList<>());
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.communityEmail("https://example.org/example").isEmpty());
+        assertTrue(this.serviceUrlsImpl.communityEmail("Oxford").isEmpty());
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testCommunityEmail3() throws IOException {
+    void testCommunityEmailParametersUrl() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -1527,19 +1236,12 @@ class ServiceUrlsImplTest {
         dataJson.setMedicalrecords(new ArrayList<>());
         dataJson.setPersons(personList);
         when(this.jsonFileService.jsonReaderService()).thenReturn(dataJson);
-        assertTrue(this.serviceUrlsImpl.communityEmail("https://example.org/example").isEmpty());
+        assertTrue(!this.serviceUrlsImpl.communityEmail("Oxford").isEmpty());
         verify(this.jsonFileService).jsonReaderService();
     }
 
     @Test
-    void testCommunityEmail4() throws IOException {
-        when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
-        assertThrows(IOException.class, () -> this.serviceUrlsImpl.communityEmail("https://example.org/example"));
-        verify(this.jsonFileService).jsonReaderService();
-    }
-
-    @Test
-    void testCommunityEmail5() throws IOException {
+    void testCommunityEmailPersonList() throws IOException {
         Person person = new Person();
         person.setAddress("42 Main St");
         person.setCity("Oxford");
@@ -1566,7 +1268,7 @@ class ServiceUrlsImplTest {
     @Test
     void testCommunityEmailError() throws IOException {
         when(this.jsonFileService.jsonReaderService()).thenThrow(new IOException("An error occurred"));
-        assertThrows(IOException.class, () -> this.serviceUrlsImpl.communityEmail("https://example.org/example"));
+        assertThrows(IOException.class, () -> this.serviceUrlsImpl.communityEmail("Paris"));
         verify(this.jsonFileService).jsonReaderService();
     }
 }

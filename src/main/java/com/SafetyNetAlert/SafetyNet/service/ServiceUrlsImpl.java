@@ -90,7 +90,7 @@ public class ServiceUrlsImpl implements ServiceUrls {
         for (V2Family v2 : v2FireStation.getFamilyList()) {
             for (V2Person v2Person : v2.getPersonList()) {
                 if (v2.getAddress().equals(address)) {
-                    fireAddress = new FireAddress(v2Person, v2);
+                    fireAddress = new FireAddress(v2Person);
                     fireAddress.setStationID(v2FireStation.getId());
                     fireAddresses.add(fireAddress);
                 }
@@ -117,7 +117,7 @@ public class ServiceUrlsImpl implements ServiceUrls {
                 for (V2Person v2Person : v2.getPersonList()) {
                     for(int i = 0; i<aListOfStationNumber.size(); i++) {
                         if (v2FireStation.getId().equals(aListOfStationNumber.get(i))) {
-                            fireAddress = new FireAddress(v2Person, v2);
+                            fireAddress = new FireAddress(v2Person);
                             fireAddress.setStationID(v2FireStation.getId());
                             fireAddresses.add(fireAddress);
                         }

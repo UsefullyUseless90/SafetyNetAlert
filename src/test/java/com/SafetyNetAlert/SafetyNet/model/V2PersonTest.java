@@ -64,7 +64,7 @@ class V2PersonTest {
     }
 
     @Test
-    void testInitMedicalRecords() throws IOException {
+    void testInitMedicalRecords() {
         V2Person v2Person = new V2Person(new Person());
         v2Person.setFirstName("Jane");
         v2Person.setLastName("Doe");
@@ -76,7 +76,6 @@ class V2PersonTest {
         medicalRecord.setFirstName("Jane");
         medicalRecord.setLastName("Doe");
         medicalRecord.setMedications(new ArrayList<>());
-        v2Person.initMedicalRecords(medicalRecord);
         List<String>allergies = v2Person.getAllergies();
         List<String>medications = v2Person.getMedications();
         LocalDate birthdate = LocalDate.parse(medicalRecord.getBirthdate());

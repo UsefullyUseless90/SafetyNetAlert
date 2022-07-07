@@ -45,7 +45,7 @@ public class V2Person {
         this.setAllergies(medicalRecord.getAllergies());
         //MM/JJ/AAAA
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate localDate = LocalDate.parse(medicalRecord.getBirthdate());
+        LocalDate localDate = LocalDate.parse(medicalRecord.getBirthdate(), formatter);
         this.setBirthdate(localDate);
 
         LocalDate birthDate = this.getBirthdate();

@@ -17,13 +17,11 @@ public class FireAddress {
     private String lastName;
     private String phoneNumber;
     private int age;
-    private String address;
     private List<String> medications;
     private List<String> allergies;
 
-    public FireAddress(V2Person v2Person, V2Family v2Family) {
+    public FireAddress(V2Person v2Person) {
 
-        this.address = v2Family.getAddress();
         this.firstName = v2Person.getFirstName();
         this.lastName = v2Person.getLastName();
         this.phoneNumber = v2Person.getPhone();

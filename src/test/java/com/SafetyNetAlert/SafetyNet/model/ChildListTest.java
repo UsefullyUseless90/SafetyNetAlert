@@ -1,7 +1,6 @@
 package com.SafetyNetAlert.SafetyNet.model;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 
@@ -62,7 +61,7 @@ class ChildListTest {
     }
 
     @Test
-    void testConstructor2() {
+    void testConstructorEmpty() {
         assertTrue((new ChildList(new V2FireStation(new FireStation()))).getChildList().isEmpty());
     }
 
