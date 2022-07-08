@@ -321,7 +321,7 @@ class V2FireStationListTest {
     }
 
     @Test
-    void testConstructor12() throws IOException {
+    void testConstructorFirestationPerson() throws IOException {
         FireStation fireStation = new FireStation();
         fireStation.setAddress("42 Main St");
         fireStation.setStation("Station");
