@@ -1,10 +1,10 @@
 package com.SafetyNetAlert.SafetyNet.controller;
 
-import com.SafetyNetAlert.SafetyNet.model.CommunityEmail;
-import com.SafetyNetAlert.SafetyNet.model.PhoneNumber;
+import com.SafetyNetAlert.SafetyNet.model.*;
 import com.SafetyNetAlert.SafetyNet.service.ServiceUrls;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +20,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
-@Slf4j
 public class UrlsController {
 
+    private static final Logger log = LogManager.getLogger(UrlsController.class);
+
     @Autowired
-    ServiceUrls serviceUrls;
+    private ServiceUrls serviceUrls;
 
     /**
      *
@@ -35,6 +36,8 @@ public class UrlsController {
 
     @RequestMapping(value = "/childAlert", params = "address", method = RequestMethod.GET)
     public ResponseEntity<?> childAlert(@RequestParam String address) throws IOException{
+        log.info("Checking, please wait...");
+        log.info("URL n°2 ChildAlert:" + serviceUrls.childAlert(address));
         return ResponseEntity.status(HttpStatus.OK).body(serviceUrls.childAlert(address));
     }
 
@@ -47,8 +50,10 @@ public class UrlsController {
 
     @RequestMapping(value = "/phoneAlert", params = "firestation")
     public ResponseEntity<?>phoneNumber(@RequestParam String firestation) throws IOException{
+        log.info("Checking, please wait...");
         PhoneNumber phoneNumber = serviceUrls.phoneNumber(firestation);
         phoneNumber.setPhoneNumber(phoneNumber.getPhoneNumber().stream().distinct().collect(Collectors.toList()));
+        log.info("URL n°3 PhoneAlert:" + phoneNumber);
         return ResponseEntity.status(HttpStatus.OK).body(phoneNumber);
     }
 
@@ -61,7 +66,10 @@ public class UrlsController {
 
     @RequestMapping(value ="/fire", params = "address", method = RequestMethod.GET)
     public ResponseEntity<?>fireAddress(@RequestParam String address) throws IOException {
-        return ResponseEntity.status(HttpStatus.OK).body(serviceUrls.fireAddress(address));
+        log.info("Checking, please wait...");
+        List<FireAddress> fireAddress = serviceUrls.fireAddress(address);
+        log.info("URL n°4 FireAddress:" + fireAddress);
+        return ResponseEntity.status(HttpStatus.OK).body(fireAddress);
     }
 
     /**
@@ -73,6 +81,9 @@ public class UrlsController {
 
     @RequestMapping(value = "/flood/stations", params = "stations")
     public ResponseEntity<?>floodStation(@RequestParam("stations") List<String> stations) throws IOException {
+        log.info("Checking, please wait...");
+        List<FireAddress> floodStation = serviceUrls.floodStation(stations);
+        log.info("URL n°5 FloodStation:" + serviceUrls.floodStation(stations));
         return ResponseEntity.status(HttpStatus.OK).body(serviceUrls.floodStation(stations));
     }
 
@@ -86,7 +97,10 @@ public class UrlsController {
 
     @RequestMapping(value = "/personInfo", params ={ "firstName", "lastName"})
     public ResponseEntity<?> personInfo(@RequestParam String firstName, @RequestParam String lastName) throws IOException {
-        return ResponseEntity.status(HttpStatus.OK).body(serviceUrls.personInfo(firstName, lastName));
+        log.info("Checking, please wait...");
+        List<PersonInfo> personInfo = serviceUrls.personInfo(firstName, lastName);
+        log.info("URL n°6 PersonInfo:" + personInfo);
+        return ResponseEntity.status(HttpStatus.OK).body(personInfo);
     }
 
     /**
@@ -98,7 +112,10 @@ public class UrlsController {
 
     @RequestMapping(value = "/communityEmail", params = "city")
     public ResponseEntity<?>communityEmail(@RequestParam String city) throws IOException {
-        return ResponseEntity.status(HttpStatus.OK).body(serviceUrls.communityEmail(city));
+        log.info("Checking, please wait...");
+        List<CommunityEmail> communityEmails = serviceUrls.communityEmail(city);
+        log.info("URL n°7 CommunityEmail:" + communityEmails);
+        return ResponseEntity.status(HttpStatus.OK).body(communityEmails);
     }
 
 }

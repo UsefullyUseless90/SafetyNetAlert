@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 public class JsonFileService {
 
-    private static File file = new File("C:\\Users\\antco\\Desktop\\JAVA\\SafetyNet\\src\\main\\resources\\JsonDataSafetyNet.json");
+    private static File file = new File("src/main/resources/JsonDataSafetyNet.json");
 
     /**
      * Fonction permettant de lire le fichier JSON et de le transformer en objet JAVA avec Jackson
@@ -87,4 +87,3 @@ public class JsonFileService {
         this.jsonWriterService(dataJson);
     }
 }
-

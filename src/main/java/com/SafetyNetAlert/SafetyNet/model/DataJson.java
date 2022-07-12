@@ -8,6 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+
 public class DataJson {
 
     private List<Person> persons;
