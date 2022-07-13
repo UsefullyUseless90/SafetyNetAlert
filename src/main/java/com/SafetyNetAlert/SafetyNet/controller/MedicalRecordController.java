@@ -2,9 +2,9 @@ package com.SafetyNetAlert.SafetyNet.controller;
 
 import com.SafetyNetAlert.SafetyNet.model.MedicalRecord;
 import com.SafetyNetAlert.SafetyNet.service.MedicalRecordService;
-import org.apache.logging.log4j.LogManager;
 import org.json.JSONException;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class MedicalRecordController {
     @Autowired
     MedicalRecordService medicalRecordService;
 
-    private Logger logger = LogManager.getLogger(MedicalRecordController.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Create / Add new record
